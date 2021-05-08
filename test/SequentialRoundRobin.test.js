@@ -27,7 +27,7 @@ describe('SequentialRoundRobin tests', () => {
       const next3 = table.next();
       expect(next3.key).to.equal(2);
       expect(next3.value).to.equal('item 3');
- 
+
       const next4 = table.next();
       expect(next4.key).to.equal(3);
       expect(next4.value).to.equal('item 4');

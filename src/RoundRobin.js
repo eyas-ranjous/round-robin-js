@@ -30,7 +30,7 @@ class RoundRobin {
   _initItems() {
     const items = this._options.items || [];
     if (!Array.isArray(items)) {
-      throw new Error(`items must be an array`);      
+      throw new Error('items must be an array');
     }
     this._items = new DoublyLinkedList();
     this._itemNodes = new Map();
