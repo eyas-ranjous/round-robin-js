@@ -9,7 +9,8 @@
       { "allowAfterThis": true }
     ],
     "class-methods-use-this": 0,
-    "prefer-object-spread": 0
+    "prefer-object-spread": 0,
+    "no-plusplus": 0
   },
   "env": {
     "mocha": true,
