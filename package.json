@@ -1,0 +1,39 @@
+{
+  "name": "round-robin-js",
+  "version": "1.0.0",
+  "description": "a round robin data structure",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eyas-ranjous/round-robin-js.git"
+  },
+  "keywords": [
+    "round",
+    "robin"
+  ],
+  "author": "Eyas Ranjous <eyas.ranjous@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eyas-ranjous/round-robin-js/issues"
+  },
+  "homepage": "https://github.com/eyas-ranjous/round-robin-js#readme",
+  "dependencies": {
+    "@datastructures-js/linked-list": "^5.0.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^6.7.2",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "grunt": "^1.0.4",
+    "grunt-eslint": "^22.0.0",
+    "grunt-mocha-istanbul": "^5.0.2",
+    "grunt-mocha-test": "^0.13.3",
+    "istanbul": "^0.4.5",
+    "mocha": "^6.2.2",
+    "sinon": "^9.0.2"
+  }
+}
