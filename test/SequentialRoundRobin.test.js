@@ -31,6 +31,7 @@ describe('SequentialRoundRobin tests', () => {
       const next4 = table.next();
       expect(next4.key).to.equal(3);
       expect(next4.value).to.equal('item 4');
+      expect(table.completedRounds()).to.equal(1);
 
       const next5 = table.next();
       expect(next5.key).to.equal(0);

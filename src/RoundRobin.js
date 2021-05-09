@@ -16,26 +16,14 @@ class RoundRobin {
    * @constructor
    * @param {object} options
    */
-  constructor(options = {}) {
-    this._options = options;
-    this._initItems();
-    this._currentTurn = null;
-    this._completedRounds = 0;
-  }
-
-  /**
-   * Initializes the table items
-   * @private
-   */
-  _initItems() {
-    const items = this._options.items || [];
-    if (!Array.isArray(items)) {
+  constructor(options) {
+    if (options.items && !Array.isArray(options.items)) {
       throw new Error('items must be an array');
     }
-    this._items = new DoublyLinkedList();
-    this._itemNodes = new Map();
+    this._initialItems = options.items;
     this._currentkey = 0;
-    items.forEach((item) => this.add(item));
+    this._completedRounds = 0;
+    this._currentTurn = null;
   }
 
   /**
@@ -47,13 +35,12 @@ class RoundRobin {
   }
 
   /**
-   * Resets the round
+   * Returns number of completed round of turns
    * @public
-   * @return {RoundRobin}
+   * @return {number}
    */
-  reset() {
-    this._currentTurn = null;
-    return this;
+  completedRounds() {
+    return this._completedRounds;
   }
 
   /**
@@ -62,43 +49,10 @@ class RoundRobin {
    * @return {RoundRobin}
    */
   clear() {
-    this._initItems();
+    this._currentkey = 0;
+    this._completedRounds = 0;
     this._currentTurn = null;
     return this;
-  }
-
-  /**
-   * Adds a new item to the table
-   * @public
-   * @param {any} item
-   * @return {object}
-   */
-  add(item) {
-    this._itemNodes.set(
-      this._currentkey,
-      this._items.insertLast({ key: this._currentkey++, value: item })
-    );
-    return this._items.tail().getValue();
-  }
-
-  /**
-   * Deletes an item from the table
-   * @public
-   * @param {number} key
-   * @return {boolean}
-   */
-  delete(key) {
-    this._items.remove(this._itemNodes.get(key));
-    return this._itemNodes.delete(key);
-  }
-
-  /**
-   * Returns number of completed round of turns
-   * @public
-   * @return {number}
-   */
-  completedRounds() {
-    return this._completedRounds;
   }
 }
 

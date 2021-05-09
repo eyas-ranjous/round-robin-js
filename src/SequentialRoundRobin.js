@@ -4,12 +4,56 @@
  * @license ISC
  */
 
+const { DoublyLinkedList } = require('@datastructures-js/linked-list');
 const RoundRobin = require('./RoundRobin');
 
 /**
  * @class
  */
 class SequentialRoundRobin extends RoundRobin {
+  /**
+   * @constructor
+   * @param {object} options
+   */
+  constructor(options) {
+    super(options);
+    this._init();
+  }
+
+  /**
+   * @private
+   */
+  _init() {
+    this._items = new DoublyLinkedList();
+    this._itemNodes = new Map();
+    this._initialItems.forEach((item) => this.add(item));
+  }
+
+  /**
+   * Adds a new item to the table
+   * @public
+   * @param {any} item
+   * @return {object}
+   */
+  add(item) {
+    this._itemNodes.set(
+      this._currentkey,
+      this._items.insertLast({ key: this._currentkey++, value: item })
+    );
+    return this._items.tail().getValue();
+  }
+
+  /**
+   * Deletes an item from the table
+   * @public
+   * @param {number} key
+   * @return {boolean}
+   */
+  delete(key) {
+    this._items.remove(this._itemNodes.get(key));
+    return this._itemNodes.delete(key);
+  }
+
   /**
    * Selects the next item in the turn round sequentially
    * @public
@@ -31,6 +75,28 @@ class SequentialRoundRobin extends RoundRobin {
     }
 
     return item;
+  }
+
+  /**
+   * Resets the table
+   * @public
+   * @return {RoundRobin}
+   */
+  reset() {
+    super.clear();
+    this._init();
+    return this;
+  }
+
+  /**
+   * Clears the table
+   * @public
+   * @return {RoundRobin}
+   */
+  clear() {
+    this._items = new DoublyLinkedList();
+    this._itemNodes = new Map();
+    return super.clear();
   }
 }
 
