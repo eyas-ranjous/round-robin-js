@@ -88,8 +88,6 @@ describe('SequentialRoundRobin tests', () => {
     it('clears the table', () => {
       table.clear();
       expect(table.count()).to.equal(0);
-
-      const next1 = table.next();
       expect(table.next()).to.equal(null);
     });
   });
