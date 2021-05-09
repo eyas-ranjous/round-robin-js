@@ -93,7 +93,7 @@ class RoundRobin {
   }
 
   /**
-   * Returns number of completed rounds of the table
+   * Returns number of completed round of turns
    * @public
    * @return {number}
    */
