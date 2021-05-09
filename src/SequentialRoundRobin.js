@@ -78,6 +78,14 @@ class SequentialRoundRobin extends RoundRobin {
   }
 
   /**
+   * Returns number of items on the table
+   * @return {number}
+   */
+  count() {
+    return this._items.count();
+  }
+
+  /**
    * Resets the table
    * @public
    * @return {RoundRobin}

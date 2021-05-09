@@ -27,14 +27,6 @@ class RoundRobin {
   }
 
   /**
-   * Returns number of items on the table
-   * @return {number}
-   */
-  count() {
-    return this._items.count();
-  }
-
-  /**
    * Returns number of completed round of turns
    * @public
    * @return {number}
