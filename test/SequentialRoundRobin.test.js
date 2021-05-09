@@ -43,7 +43,6 @@ describe('SequentialRoundRobin tests', () => {
     it('removes items from the table', () => {
       table.delete(0);
       table.delete(2);
-      table.delete(5);
       expect(table.count()).to.equal(2);
 
       const next1 = table.next();
