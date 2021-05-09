@@ -4,8 +4,6 @@
  * @license ISC
  */
 
-const { DoublyLinkedList } = require('@datastructures-js/linked-list');
-
 /**
  * Represents a round robin table
  * @abstract

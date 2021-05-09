@@ -68,4 +68,29 @@ describe('SequentialRoundRobin tests', () => {
       expect(next5.value).to.equal('new item');
     });
   });
+
+  describe('.reset', () => {
+    it('reset the table', () => {
+      table.reset();
+      expect(table.count()).to.equal(2);
+
+      const next1 = table.next();
+      expect(next1.key).to.equal(0);
+      expect(next1.value).to.equal('item 1');
+
+      const next2 = table.next();
+      expect(next2.key).to.equal(1);
+      expect(next2.value).to.equal('item 2');
+    });
+  });
+
+  describe('.clear', () => {
+    it('clears the table', () => {
+      table.clear();
+      expect(table.count()).to.equal(0);
+
+      const next1 = table.next();
+      expect(table.next()).to.equal(null);
+    });
+  });
 });
