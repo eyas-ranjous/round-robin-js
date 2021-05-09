@@ -13,8 +13,7 @@ class SequentialRoundRobin extends RoundRobin {
   /**
    * Selects the next item in the turn round sequentially
    * @public
-   * @param {any} item
-   * @return {boolean}
+   * @return {object}
    */
   next() {
     if (this._items.isEmpty()) {
