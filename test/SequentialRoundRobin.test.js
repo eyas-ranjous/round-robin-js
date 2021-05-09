@@ -2,12 +2,12 @@ const { expect } = require('chai');
 const SequentialRoundRobin = require('../src/SequentialRoundRobin');
 
 describe('SequentialRoundRobin tests', () => {
-  const table = new SequentialRoundRobin({ maxItems: 3 });
+  const table = new SequentialRoundRobin({
+    items: ['item 1', 'item 2']
+  });
 
   describe('.add', () => {
     it('adds items to the table', () => {
-      expect(table.add('item 1')).to.deep.equal({ key: 0, value: 'item 1' });
-      expect(table.add('item 2')).to.deep.equal({ key: 1, value: 'item 2' });
       expect(table.add('item 3')).to.deep.equal({ key: 2, value: 'item 3' });
       expect(table.add('item 4')).to.deep.equal({ key: 3, value: 'item 4' });
       expect(table.count()).to.equal(4);

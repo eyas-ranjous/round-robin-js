@@ -35,12 +35,7 @@ class RoundRobin {
     this._items = new DoublyLinkedList();
     this._itemNodes = new Map();
     this._currentkey = 0;
-    items.forEach((item) => {
-      this._itemNodes.set(
-        this._currentkey,
-        this._items.insertLast({ key: this._currentkey++, value: item })
-      );
-    });
+    items.forEach((item) => this.add(item));
   }
 
   /**
