@@ -8,7 +8,7 @@ An implementation of the round robin as a data structure. Two strategies are imp
 * [Install](#install)
 * [API](#api)
   * [import](#import)
-  * [new](#new)
+  * [constructor](#new)
   * [add(item)](#additem)
   * [delete(key)](#deletekey)
   * [next()](#next)
@@ -50,7 +50,7 @@ import {
 } from 'round-robin-js';
 ```
 
-### new
+### constructor
 
 #### JS
 
