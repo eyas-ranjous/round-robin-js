@@ -69,7 +69,7 @@ const sequentialTable = new SequentialRoundRobin({ items: ['T1', 'T2', 'T3'] });
 const randomTable = new RandomRoundRobin({ items: [1, 2, 3] });
 ```
 
-#### JS
+#### TS
 
 <table>
   <tr>
