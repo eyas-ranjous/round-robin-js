@@ -7,7 +7,6 @@ An implementation of the round robin as a data structure.
 # Table of Contents
 * [Install](#install)
 * [API](#api)
-  * [require](#require)
   * [import](#import)
   * [new](#new)
   * [add(item)](#start)
@@ -21,5 +20,27 @@ An implementation of the round robin as a data structure.
 
 ```sh
 npm install --save round-robin-js
+```
+
+### require
+
+#### JS
+
+```js
+import { SequentialRoundRobin, RandomRoundRobin } from 'round-robin-js';
+```
+
+#### TS
+
+```js
+import {
+  SequentialRoundRobin,
+  RandomRoundRobin,
+  RoundRobinOptions, // constructor options
+  RoundRobinItem // the internal item type
+} from 'round-robin-js';
+
+// other types
+import { RoundRobinOptions, RoundRobinItem } 
 ```
 
