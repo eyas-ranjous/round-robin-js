@@ -4,7 +4,7 @@
 
 An implementation of the round robin as a data structure. Two strategies are implemented to select the next item in the round, a Sequential one that selects the next item based the order in the list, and a Random one that select the next item randomly.
 
-# Table of Contents
+# Contents
 * [Install](#install)
 * [API](#api)
   * [import](#import)
