@@ -52,31 +52,36 @@ import {
 
 ### new
 
+#### JS
+
 <table>
   <tr>
     <th align="center">params</th>
   </tr>
   <tr>
-    <td align="center">options: object (RoundRobinOptions)</td>
+    <td align="center">options: object</td>
   </tr>
 </table>
 
-#### JS
-
 ```js
-const sequentialTable = new SequentialRoundRobin({
-  items: ['item 1', 'item 2', 'item 3']
-});
+const sequentialTable = new SequentialRoundRobin({ items: ['T1', 'T2', 'T3'] });
 
 const randomTable = new RandomRoundRobin({ items: [1, 2, 3] });
 ```
 
 #### JS
 
+<table>
+  <tr>
+    <th align="center">params</th>
+  </tr>
+  <tr>
+    <td align="center">options: RoundRobinOptions</td>
+  </tr>
+</table>
+
 ```js
-const sequentialTable = new SequentialRoundRobin<string>({
-  items: ['item 1', 'item 2', 'item 3']
-});
+const sequentialTable = new SequentialRoundRobin<string>({ items: ['T1', 'T2', 'T3'] });
 
 const randomTable = new RandomRoundRobin<number>({ items: [1, 2, 3] });
 ```
