@@ -49,3 +49,34 @@ import {
   RoundRobinItem // the internal item type
 } from 'round-robin-js';
 ```
+
+### new
+
+<table>
+  <tr>
+    <th align="center">params</th>
+  </tr>
+  <tr>
+    <td align="center">options: object (RoundRobinOptions)</td>
+  </tr>
+</table>
+
+#### JS
+
+```js
+const sequentialTable = new SequentialRoundRobin({
+  items: ['item 1', 'item 2', 'item 3']
+});
+
+const randomTable = new RandomRoundRobin({ items: [1, 2, 3] });
+```
+
+#### JS
+
+```js
+const sequentialTable = new SequentialRoundRobin<string>({
+  items: ['item 1', 'item 2', 'item 3']
+});
+
+const randomTable = new RandomRoundRobin<number>({ items: [1, 2, 3] });
+```
