@@ -1,4 +1,4 @@
-import { RoundRobin, RoundRobinOptions } from './RoundRobin';
+import { RoundRobin } from './RoundRobin';
 
 export { RoundRobinOptions, RoundRobinItem } from './RoundRobin';
 
