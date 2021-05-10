@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const RandomRoundRobin = require('../src/RandomRoundRobin');
+const { RandomRoundRobin } = require('../src/RandomRoundRobin');
 
 describe('RandomRoundRobin tests', () => {
   const table = new RandomRoundRobin({

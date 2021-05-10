@@ -102,4 +102,4 @@ class RandomRoundRobin extends RoundRobin {
   }
 }
 
-module.exports = RandomRoundRobin;
+exports.RandomRoundRobin = RandomRoundRobin;

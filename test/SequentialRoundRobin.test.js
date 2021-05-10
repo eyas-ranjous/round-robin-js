@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const SequentialRoundRobin = require('../src/SequentialRoundRobin');
+const { SequentialRoundRobin } = require('../src/SequentialRoundRobin');
 
 describe('SequentialRoundRobin tests', () => {
   const table = new SequentialRoundRobin({

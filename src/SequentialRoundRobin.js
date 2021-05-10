@@ -108,4 +108,4 @@ class SequentialRoundRobin extends RoundRobin {
   }
 }
 
-module.exports = SequentialRoundRobin;
+exports.SequentialRoundRobin = SequentialRoundRobin;

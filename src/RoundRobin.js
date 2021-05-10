@@ -14,11 +14,11 @@ class RoundRobin {
    * @constructor
    * @param {object} options
    */
-  constructor(options) {
+  constructor(options = {}) {
     if (options.items && !Array.isArray(options.items)) {
       throw new Error('items must be an array');
     }
-    this._initialItems = options.items;
+    this._initialItems = options.items || [];
     this._currentkey = 0;
     this._completedRounds = 0;
     this._currentTurn = null;
