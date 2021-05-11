@@ -132,7 +132,7 @@ console.log(item); // { key: 3, value: 'T4' }
 ```
 
 ### count()
-returns the number of items in the round.
+returns the number of items in the table.
 
 <table>
   <tr>
@@ -181,7 +181,7 @@ console.log(randomRound.next()); // { key: 2, value: 'T3' }
 ```
 
 ### completedRounds()
-returns the number of finished rounds.
+returns the number of completed rounds.
 
 <table>
   <tr>
@@ -199,7 +199,7 @@ console.log(randomRound.completedRounds()); // 1
 ```
 
 ### delete(key)
-deletes an item from the round by its key.
+deletes an item from the table by its key.
 
 <table>
   <tr>
@@ -238,7 +238,7 @@ console.log(randomTable.completedRounds()); // 0
 ```
 
 ### clear()
-clears the table from all values.
+clears all values in the table.
 
 ```js
 sequentialTable.clear();
