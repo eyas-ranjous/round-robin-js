@@ -180,6 +180,25 @@ console.log(randomRound.next()); // { key: 1, value: 'T2' }
 console.log(randomRound.next()); // { key: 2, value: 'T3' }
 ```
 
+### completedRounds()
+returns the number of finished rounds.
+
+<table>
+  <tr>
+    <th align="center">return</th>
+  </tr>
+  <tr>
+    <td align="center">number</td>
+  </tr>
+</table>
+
+```js
+console.log(sequentialRound.completedRounds()); // 1
+
+console.log(randomRound.completedRounds()); // 1
+```
+
+
 ## Build
 ```
 grunt build
