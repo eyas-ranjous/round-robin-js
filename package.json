@@ -11,11 +11,10 @@
     "url": "git+https://github.com/eyas-ranjous/round-robin-js.git"
   },
   "keywords": [
-    "round",
-    "robin"
+    "round robin"
   ],
   "author": "Eyas Ranjous <eyas.ranjous@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/eyas-ranjous/round-robin-js/issues"
   },
