@@ -132,4 +132,33 @@ console.log(item); // { key: 3, value: 'T4' }
 ```
 
 ### next()
-adds a new item to the table.
+returns the next item in the round.
+
+<table>
+  <tr>
+    <th align="center">return</th>
+  </tr>
+  <tr>
+    <td align="center">object (RoundRobinItem)</td>
+  </tr>
+</table>
+
+```js
+// first round
+console.log(sequentialTable.next()); // { key: 0, value: 'T1' }
+console.log(sequentialTable.next()); // { key: 1, value: 'T2' }
+console.log(sequentialTable.next()); // { key: 2, value: 'T3' }
+console.log(sequentialTable.next()); // { key: 3, value: 'T4' }
+// second round ...
+console.log(sequentialTable.next()); // { key: 0, value: 'T1' }
+
+
+// first round
+console.log(randomTable.next()); // { key: 3, value: 'T4' }
+console.log(randomTable.next()); // { key: 0, value: 'T1' }
+console.log(randomTable.next()); // { key: 2, value: 'T3' }
+console.log(randomTable.next()); // { key: 1, value: 'T2' }
+// new round
+console.log(randomTable.next()); // { key: 2, value: 'T3' }
+
+```
