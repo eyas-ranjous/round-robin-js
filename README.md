@@ -225,8 +225,30 @@ console.log(sequentialRound.next()); // { key: 3, value: 'T4' }
 ```
 
 ### reset()
+resets the table with the intial items and clears completed rounds.
+
+```js
+sequentialTable.reset();
+console.log(sequentialTable.count()); // 3
+console.log(sequentialTable.completedRounds()); // 0
+
+randomTable.reset();
+console.log(randomTable.count()); // 3
+console.log(randomTable.completedRounds()); // 0
+```
 
 ### clear()
+clears the table from all values.
+
+```js
+sequentialTable.clear();
+console.log(sequentialTable.count()); // 0
+console.log(sequentialTable.completedRounds()); // 0
+
+randomTable.clear();
+console.log(randomTable.count()); // 0
+console.log(randomTable.completedRounds()); // 0
+```
 
 ## Build
 ```
