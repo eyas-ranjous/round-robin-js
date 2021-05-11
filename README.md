@@ -198,6 +198,31 @@ console.log(sequentialRound.completedRounds()); // 1
 console.log(randomRound.completedRounds()); // 1
 ```
 
+### delete(key)
+deletes an item from the round by its key.
+
+<table>
+  <tr>
+    <th align="center">return</th>
+  </tr>
+  <tr>
+    <td align="center">boolean</td>
+  </tr>
+</table>
+
+```js
+sequentialRound.delete(0);
+sequentialRound.delete(2);
+console.log(sequentialRound.next());
+console.log(sequentialRound.next());
+console.log(sequentialRound.next());
+
+randomRound.delete(0);
+randomRound.delete(2);
+console.log(sequentialRound.next());
+console.log(sequentialRound.next());
+console.log(sequentialRound.next());
+```
 
 ## Build
 ```
