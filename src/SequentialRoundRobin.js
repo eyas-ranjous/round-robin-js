@@ -50,9 +50,17 @@ class SequentialRoundRobin extends RoundRobin {
    * @return {boolean}
    */
   delete(key) {
+    if (!this._itemNodes.has(key)) {
+      return false;
+    }
+
     if (this._currentTurn && this._currentTurn.getValue().key === key) {
       this._currentTurn = this._currentTurn.getNext();
+      if (this._currentTurn === null) {
+        this._completedRounds += 1;
+      }
     }
+
     this._items.remove(this._itemNodes.get(key));
     return this._itemNodes.delete(key);
   }
