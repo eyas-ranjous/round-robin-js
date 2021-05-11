@@ -8,7 +8,7 @@ An implementation of the round robin as a data structure. Two strategies are imp
 * [Install](#install)
 * [API](#api)
   * [import](#import)
-  * [constructor](#new)
+  * [constructor](#constructor)
   * [add(item)](#additem)
   * [delete(key)](#deletekey)
   * [next()](#next)
@@ -83,4 +83,48 @@ const randomTable = new RandomRoundRobin([1, 2, 3]);
 const sequentialTable = new SequentialRoundRobin<string>(['T1', 'T2', 'T3']);
 
 const randomTable = new RandomRoundRobin<number>([1, 2, 3]);
+```
+
+### add(item)
+
+#### JS
+
+<table>
+  <tr>
+    <th align="center">params</th>
+    <th align="center">return</th>
+  </tr>
+  <tr>
+    <td align="center">item: any</td>
+    <td align="center">object</td>
+  </tr>
+</table>
+
+```js
+const { key, value } = sequentialTable.add('T4');
+console.log(key, value); // 3, T4
+
+const { key, value } = randomTable.add(4);
+console.log(key, value); // 3, 4
+```
+
+#### TS
+
+<table>
+  <tr>
+    <th align="center">params</th>
+    <th align="center">return</th>
+  </tr>
+  <tr>
+    <td align="center">item: T</td>
+    <td align="center">RoundRobinItem</td>
+  </tr>
+</table>
+
+```js
+const item: RoundRobinItem = sequentialTable.add('T4');
+console.log(item); // { key: 3, value: 'T4' }
+
+const item: RoundRobinItem = randomTable.add('T4');
+console.log(item); // { key: 3, value: 'T4' }
 ```
