@@ -89,23 +89,6 @@ class SequentialRoundRobin extends RoundRobin {
   }
 
   /**
-   * Returns the current turn in the round
-   * @public
-   * @return {object}
-   */
-  currentTurn() {
-    if (this.count() === 0) {
-      return null;
-    }
-
-    if (this._currentTurn === null) {
-      return this._items.head().getValue();
-    }
-
-    return this._currentTurn.getValue();
-  }
-
-  /**
    * Resets the table
    * @public
    * @return {RoundRobin}
