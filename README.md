@@ -2,7 +2,7 @@
 
 [![build:?](https://travis-ci.org/eyas-ranjous/round-robin-js.svg?branch=main)](https://travis-ci.org/eyas-ranjous/round-robin-js) [![npm](https://img.shields.io/npm/v/round-robin-js.svg)](https://www.npmjs.com/package/round-robin-js) [![npm](https://img.shields.io/npm/dm/round-robin-js.svg)](https://www.npmjs.com/package/round-robin-js) [![npm](https://img.shields.io/badge/node-%3E=%206.0-blue.svg)](https://www.npmjs.com/package/round-robin-js)
 
-An implementation of the round robin as a data structure. Two strategies are implemented to select the next item in the round, a Sequential one that selects the next item based on insertion order, and a Random one that select the next item randomly.
+An implementation of the round robin as a data structure. Two strategies are implemented to select the next item in the round, a Sequential one that selects the next item based on the order of insertion, and a Random one that selects the next item randomly.
 
 # Contents
 * [Install](#install)
@@ -132,7 +132,7 @@ console.log(item); // { key: 3, value: 'T4' }
 ```
 
 ### count()
-returns the number of items in the round.
+returns the number of items in the table.
 
 <table>
   <tr>
@@ -181,7 +181,7 @@ console.log(randomRound.next()); // { key: 2, value: 'T3' }
 ```
 
 ### completedRounds()
-returns the number of finished rounds.
+returns the number of completed rounds.
 
 <table>
   <tr>
@@ -199,7 +199,7 @@ console.log(randomRound.completedRounds()); // 1
 ```
 
 ### delete(key)
-deletes an item from the round by its key.
+deletes an item from the table by its key.
 
 <table>
   <tr>
@@ -238,7 +238,7 @@ console.log(randomTable.completedRounds()); // 0
 ```
 
 ### clear()
-clears the table from all values.
+clears all values in the table.
 
 ```js
 sequentialTable.clear();
