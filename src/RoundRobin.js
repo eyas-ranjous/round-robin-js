@@ -12,7 +12,7 @@
 class RoundRobin {
   /**
    * @constructor
-   * @param {object} options
+   * @param {array} items
    */
   constructor(items = []) {
     if (items && !Array.isArray(items)) {
