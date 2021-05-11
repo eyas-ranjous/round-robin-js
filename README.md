@@ -10,8 +10,8 @@ An implementation of the round robin as a data structure. Two strategies are imp
   * [import](#import)
   * [constructor](#constructor)
   * [add(item)](#additem)
-  * [delete(key)](#deletekey)
   * [next()](#next)
+  * [delete(key)](#deletekey)
   * [count()](#count)
   * [completedRounds()](#completedrounds)
   * [reset()](#reset)
@@ -50,6 +50,7 @@ import {
 ```
 
 ### constructor
+constructor accepts an initial list of items that will be loaded internally and given unique keys.
 
 #### JS
 
@@ -86,6 +87,7 @@ const randomTable = new RandomRoundRobin<number>([1, 2, 3]);
 ```
 
 ### add(item)
+adds a new item to the table.
 
 #### JS
 
@@ -128,3 +130,6 @@ console.log(item); // { key: 3, value: 'T4' }
 const item: RoundRobinItem = randomTable.add('T4');
 console.log(item); // { key: 3, value: 'T4' }
 ```
+
+### next()
+adds a new item to the table.
