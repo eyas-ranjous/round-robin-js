@@ -213,16 +213,20 @@ deletes an item from the round by its key.
 ```js
 sequentialRound.delete(0);
 sequentialRound.delete(2);
-console.log(sequentialRound.next());
-console.log(sequentialRound.next());
-console.log(sequentialRound.next());
+console.log(sequentialRound.next()); // { key: 1, value: 'T2' }
+console.log(sequentialRound.next()); // { key: 3, value: 'T4' }
+console.log(sequentialRound.next()); // { key: 1, value: 'T2' }
 
 randomRound.delete(0);
 randomRound.delete(2);
-console.log(sequentialRound.next());
-console.log(sequentialRound.next());
-console.log(sequentialRound.next());
+console.log(sequentialRound.next()); // { key: 3, value: 'T4' }
+console.log(sequentialRound.next()); // { key: 1, value: 'T2' }
+console.log(sequentialRound.next()); // { key: 3, value: 'T4' }
 ```
+
+### reset()
+
+### clear()
 
 ## Build
 ```
