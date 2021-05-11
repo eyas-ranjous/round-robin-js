@@ -179,3 +179,11 @@ console.log(randomRound.next()); // { key: 1, value: 'T2' }
 // second round ...
 console.log(randomRound.next()); // { key: 2, value: 'T3' }
 ```
+
+## Build
+```
+grunt build
+```
+
+## License
+The MIT License. Full License is [here](https://github.com/eyas-ranjous/round-robin-js/blob/master/LICENSE)
