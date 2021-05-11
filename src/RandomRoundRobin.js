@@ -1,7 +1,7 @@
 /**
  * round-robin-js
  * @copyright 2021 Eyas Ranjous <eyas.ranjous@gmail.com>
- * @license ISC
+ * @license MIT
  */
 
 const RoundRobin = require('./RoundRobin');
