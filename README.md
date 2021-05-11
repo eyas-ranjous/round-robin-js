@@ -10,10 +10,10 @@ An implementation of the round robin as a data structure. Two strategies are imp
   * [import](#import)
   * [constructor](#constructor)
   * [add(item)](#additem)
-  * [next()](#next)
-  * [delete(key)](#deletekey)
   * [count()](#count)
+  * [next()](#next)
   * [completedRounds()](#completedrounds)
+  * [delete(key)](#deletekey)
   * [reset()](#reset)
   * [clear()](#clear)
  * [Build](#build)
@@ -64,9 +64,9 @@ constructor accepts an initial list of items that will be loaded internally and 
 </table>
 
 ```js
-const sequentialTable = new SequentialRoundRobin(['T1', 'T2', 'T3']);
+const sequentialRound = new SequentialRoundRobin(['T1', 'T2', 'T3']);
 
-const randomTable = new RandomRoundRobin([1, 2, 3]);
+const randomRound = new RandomRoundRobin([1, 2, 3]);
 ```
 
 #### TS
@@ -81,9 +81,9 @@ const randomTable = new RandomRoundRobin([1, 2, 3]);
 </table>
 
 ```js
-const sequentialTable = new SequentialRoundRobin<string>(['T1', 'T2', 'T3']);
+const sequentialRound = new SequentialRoundRobin<string>(['T1', 'T2', 'T3']);
 
-const randomTable = new RandomRoundRobin<number>([1, 2, 3]);
+const randomRound = new RandomRoundRobin<number>([1, 2, 3]);
 ```
 
 ### add(item)
@@ -103,10 +103,10 @@ adds a new item to the table.
 </table>
 
 ```js
-const { key, value } = sequentialTable.add('T4');
+const { key, value } = sequentialRound.add('T4');
 console.log(key, value); // 3, T4
 
-const { key, value } = randomTable.add(4);
+const { key, value } = randomRound.add(4);
 console.log(key, value); // 3, 4
 ```
 
@@ -124,11 +124,29 @@ console.log(key, value); // 3, 4
 </table>
 
 ```js
-const item: RoundRobinItem = sequentialTable.add('T4');
+const item: RoundRobinItem = sequentialRound.add('T4');
 console.log(item); // { key: 3, value: 'T4' }
 
-const item: RoundRobinItem = randomTable.add('T4');
+const item: RoundRobinItem = randomRound.add('T4');
 console.log(item); // { key: 3, value: 'T4' }
+```
+
+### count()
+returns the number of items in the round.
+
+<table>
+  <tr>
+    <th align="center">return</th>
+  </tr>
+  <tr>
+    <td align="center">number</td>
+  </tr>
+</table>
+
+```js
+console.log(sequentialRound.count()); // 4
+
+console.log(randomRound.count()); // 4
 ```
 
 ### next()
@@ -145,20 +163,19 @@ returns the next item in the round.
 
 ```js
 // first round
-console.log(sequentialTable.next()); // { key: 0, value: 'T1' }
-console.log(sequentialTable.next()); // { key: 1, value: 'T2' }
-console.log(sequentialTable.next()); // { key: 2, value: 'T3' }
-console.log(sequentialTable.next()); // { key: 3, value: 'T4' }
+console.log(sequentialRound.next()); // { key: 0, value: 'T1' }
+console.log(sequentialRound.next()); // { key: 1, value: 'T2' }
+console.log(sequentialRound.next()); // { key: 2, value: 'T3' }
+console.log(sequentialRound.next()); // { key: 3, value: 'T4' }
 // second round ...
-console.log(sequentialTable.next()); // { key: 0, value: 'T1' }
+console.log(sequentialRound.next()); // { key: 0, value: 'T1' }
 
 
 // first round
-console.log(randomTable.next()); // { key: 3, value: 'T4' }
-console.log(randomTable.next()); // { key: 0, value: 'T1' }
-console.log(randomTable.next()); // { key: 2, value: 'T3' }
-console.log(randomTable.next()); // { key: 1, value: 'T2' }
-// new round
-console.log(randomTable.next()); // { key: 2, value: 'T3' }
-
+console.log(randomRound.next()); // { key: 3, value: 'T4' }
+console.log(randomRound.next()); // { key: 0, value: 'T1' }
+console.log(randomRound.next()); // { key: 2, value: 'T3' }
+console.log(randomRound.next()); // { key: 1, value: 'T2' }
+// second round ...
+console.log(randomRound.next()); // { key: 2, value: 'T3' }
 ```
