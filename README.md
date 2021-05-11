@@ -45,7 +45,6 @@ import { SequentialRoundRobin, RandomRoundRobin } from 'round-robin-js';
 import {
   SequentialRoundRobin,
   RandomRoundRobin,
-  RoundRobinOptions, // constructor options
   RoundRobinItem // the internal item type
 } from 'round-robin-js';
 ```
@@ -64,9 +63,9 @@ import {
 </table>
 
 ```js
-const sequentialTable = new SequentialRoundRobin({ items: ['T1', 'T2', 'T3'] });
+const sequentialTable = new SequentialRoundRobin(['T1', 'T2', 'T3']);
 
-const randomTable = new RandomRoundRobin({ items: [1, 2, 3] });
+const randomTable = new RandomRoundRobin([1, 2, 3]);
 ```
 
 #### TS
@@ -81,7 +80,7 @@ const randomTable = new RandomRoundRobin({ items: [1, 2, 3] });
 </table>
 
 ```js
-const sequentialTable = new SequentialRoundRobin<string>({ items: ['T1', 'T2', 'T3'] });
+const sequentialTable = new SequentialRoundRobin<string>(['T1', 'T2', 'T3']);
 
-const randomTable = new RandomRoundRobin<number>({ items: [1, 2, 3] });
+const randomTable = new RandomRoundRobin<number>([1, 2, 3]);
 ```
