@@ -58,7 +58,7 @@ import {
     <th align="center">params</th>
   </tr>
   <tr>
-    <td align="center">options: array</td>
+    <td align="center">items: array</td>
   </tr>
 </table>
 
@@ -75,7 +75,7 @@ const randomTable = new RandomRoundRobin([1, 2, 3]);
     <th align="center">params</th>
   </tr>
   <tr>
-    <td align="center">options: T[]</td>
+    <td align="center">items: T[]</td>
   </tr>
 </table>
 
