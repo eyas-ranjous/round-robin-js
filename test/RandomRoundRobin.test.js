@@ -2,9 +2,7 @@ const { expect } = require('chai');
 const { RandomRoundRobin } = require('../src/RandomRoundRobin');
 
 describe('RandomRoundRobin tests', () => {
-  const table = new RandomRoundRobin({
-    items: ['item 1', 'item 2']
-  });
+  const table = new RandomRoundRobin(['item 1', 'item 2']);
 
   describe('.add', () => {
     it('adds items to the table', () => {

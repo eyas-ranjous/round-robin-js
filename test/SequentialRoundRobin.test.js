@@ -2,9 +2,7 @@ const { expect } = require('chai');
 const { SequentialRoundRobin } = require('../src/SequentialRoundRobin');
 
 describe('SequentialRoundRobin tests', () => {
-  const table = new SequentialRoundRobin({
-    items: ['item 1', 'item 2']
-  });
+  const table = new SequentialRoundRobin(['item 1', 'item 2']);
 
   describe('.add', () => {
     it('adds items to the table', () => {

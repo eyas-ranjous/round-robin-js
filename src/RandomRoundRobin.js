@@ -12,10 +12,10 @@ const RoundRobin = require('./RoundRobin');
 class RandomRoundRobin extends RoundRobin {
   /**
    * @constructor
-   * @param {object} options
+   * @param {array} items
    */
-  constructor(options) {
-    super(options);
+  constructor(items) {
+    super(items);
     this._init();
   }
 
