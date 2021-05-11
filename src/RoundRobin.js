@@ -1,7 +1,7 @@
 /**
  * round-robin-js
  * @copyright 2021 Eyas Ranjous <eyas.ranjous@gmail.com>
- * @license ISC
+ * @license MIT
  */
 
 /**
@@ -12,13 +12,13 @@
 class RoundRobin {
   /**
    * @constructor
-   * @param {object} options
+   * @param {array} items
    */
-  constructor(options = {}) {
-    if (options.items && !Array.isArray(options.items)) {
+  constructor(items = []) {
+    if (items && !Array.isArray(items)) {
       throw new Error('items must be an array');
     }
-    this._initialItems = options.items || [];
+    this._initialItems = items;
     this._currentkey = 0;
     this._completedRounds = 0;
     this._currentTurn = null;

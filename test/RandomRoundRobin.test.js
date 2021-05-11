@@ -2,49 +2,56 @@ const { expect } = require('chai');
 const { RandomRoundRobin } = require('../src/RandomRoundRobin');
 
 describe('RandomRoundRobin tests', () => {
-  const table = new RandomRoundRobin({
-    items: ['item 1', 'item 2']
-  });
+  const round = new RandomRoundRobin(['item 1', 'item 2']);
 
   describe('.add', () => {
-    it('adds items to the table', () => {
-      expect(table.add('item 3')).to.deep.equal({ key: 2, value: 'item 3' });
-      expect(table.add('item 4')).to.deep.equal({ key: 3, value: 'item 4' });
-      expect(table.count()).to.equal(4);
+    it('adds items to the round', () => {
+      expect(round.add('item 3')).to.deep.equal({ key: 2, value: 'item 3' });
+      expect(round.add('item 4')).to.deep.equal({ key: 3, value: 'item 4' });
+      expect(round.count()).to.equal(4);
     });
   });
 
   describe('.next', () => {
     it('gets the next item in the round', () => {
       const items = [
-        table.next(),
-        table.next(),
-        table.next(),
-        table.next()
+        round.next(),
+        round.next(),
+        round.next(),
+        round.next(),
+        round.next()
       ];
-      expect(items).to.have.lengthOf(4).and.to.have.deep.members([
-        { key: 0, value: 'item 1' },
-        { key: 1, value: 'item 2' },
-        { key: 2, value: 'item 3' },
-        { key: 3, value: 'item 4' }
-      ]);
+      expect(items).to.have.lengthOf(5);
     });
   });
 
   describe('.delete', () => {
-    it('removes items from the table', () => {
-      table.delete(0);
-      table.delete(2);
-      expect(table.count()).to.equal(2);
+    it('removes items from the round', () => {
+      round.delete(0);
+      round.delete(2);
+      expect(round.count()).to.equal(2);
 
       const items = [
-        table.next(),
-        table.next()
+        round.next(),
+        round.next()
       ];
-      expect(items).to.have.lengthOf(2).and.to.have.deep.members([
-        { key: 1, value: 'item 2' },
-        { key: 3, value: 'item 4' }
-      ]);
+      expect(items.find((item) => item.key === 0)).to.equal(undefined);
+      expect(items.find((item) => item.key === 2)).to.equal(undefined);
+    });
+  });
+
+  describe('.reset', () => {
+    it('reset the round', () => {
+      round.reset();
+      expect(round.count()).to.equal(2);
+    });
+  });
+
+  describe('.clear', () => {
+    it('clears the round', () => {
+      round.clear();
+      expect(round.count()).to.equal(0);
+      expect(round.next()).to.equal(null);
     });
   });
 });

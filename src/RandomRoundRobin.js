@@ -1,7 +1,7 @@
 /**
  * round-robin-js
  * @copyright 2021 Eyas Ranjous <eyas.ranjous@gmail.com>
- * @license ISC
+ * @license MIT
  */
 
 const RoundRobin = require('./RoundRobin');
@@ -12,10 +12,10 @@ const RoundRobin = require('./RoundRobin');
 class RandomRoundRobin extends RoundRobin {
   /**
    * @constructor
-   * @param {object} options
+   * @param {array} items
    */
-  constructor(options) {
-    super(options);
+  constructor(items) {
+    super(items);
     this._init();
   }
 
@@ -49,8 +49,20 @@ class RandomRoundRobin extends RoundRobin {
    * @return {boolean}
    */
   delete(key) {
+    if (!this._keys.has(key)) {
+      return false;
+    }
+
+    if (this._currentTurn && this._currentTurn.key === key) {
+      this._currentTurn = this._selectNextItem();
+      if (this._currentTurn === null) {
+        this._completedRounds += 1;
+      }
+    }
+
     this._keys.delete(key);
     this._round.delete(key);
+
     return this._items.delete(key);
   }
 
@@ -59,14 +71,19 @@ class RandomRoundRobin extends RoundRobin {
    * @public
    * @return {object}
    */
-  _selectNextKey() {
+  _selectNextItem() {
+    if (this._currentTurn === null) {
+      this._round = new Set(this._keys);
+    }
+
     const keys = Array.from(this._round);
     if (keys.length === 0) {
       return null;
     }
+
     const randomKey = keys[Math.floor(Math.random() * keys.length)];
     this._round.delete(randomKey);
-    return randomKey;
+    return this._items.get(randomKey);
   }
 
   /**
@@ -80,12 +97,11 @@ class RandomRoundRobin extends RoundRobin {
     }
 
     if (this._currentTurn === null) {
-      this._round = new Set(this._keys);
-      this._currentTurn = this._items.get(this._selectNextKey());
+      this._currentTurn = this._selectNextItem();
     }
 
     const item = this._currentTurn;
-    this._currentTurn = this._items.get(this._selectNextKey()) || null;
+    this._currentTurn = this._selectNextItem();
     if (this._currentTurn === null) {
       this._completedRounds += 1;
     }
@@ -99,6 +115,29 @@ class RandomRoundRobin extends RoundRobin {
    */
   count() {
     return this._items.size;
+  }
+
+  /**
+   * Resets the table
+   * @public
+   * @return {RoundRobin}
+   */
+  reset() {
+    super.clear();
+    this._init();
+    return this;
+  }
+
+  /**
+   * Clears the table
+   * @public
+   * @return {RoundRobin}
+   */
+  clear() {
+    this._items = new Map();
+    this._keys = new Set();
+    this._round = new Set();
+    return super.clear();
   }
 }
 
