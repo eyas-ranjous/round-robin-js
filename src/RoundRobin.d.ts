@@ -10,6 +10,7 @@ export class RoundRobin<T> {
   next(): RoundRobinItem<T>;
   count(): number;
   completedRounds(): number;
+  currentTurn(): RoundRobinItem<T>;
   reset(): RoundRobin<T>;
   clear(): RoundRobin<T>;
 }
