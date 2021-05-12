@@ -64,9 +64,9 @@ constructor accepts an initial list of items that will be loaded internally and 
 </table>
 
 ```js
-const sequentialRound = new SequentialRoundRobin(['T1', 'T2', 'T3']);
+const sequentialTable = new SequentialRoundRobin(['T1', 'T2', 'T3']);
 
-const randomRound = new RandomRoundRobin([1, 2, 3]);
+const randomTable = new RandomRoundRobin([5, 10, 15]);
 ```
 
 #### TS
@@ -81,9 +81,9 @@ const randomRound = new RandomRoundRobin([1, 2, 3]);
 </table>
 
 ```js
-const sequentialRound = new SequentialRoundRobin<string>(['T1', 'T2', 'T3']);
+const sequentialTable = new SequentialRoundRobin<string>(['T1', 'T2', 'T3']);
 
-const randomRound = new RandomRoundRobin<number>([1, 2, 3]);
+const randomTable = new RandomRoundRobin<number>([5, 10, 15]);
 ```
 
 ### add(item)
@@ -103,11 +103,11 @@ adds a new item to the table.
 </table>
 
 ```js
-const { key, value } = sequentialRound.add('T4');
+const { key, value } = sequentialTable.add('T4');
 console.log(key, value); // 3, T4
 
-const { key, value } = randomRound.add(4);
-console.log(key, value); // 3, 4
+const { key, value } = randomTable.add(25);
+console.log(key, value); // 3, 25
 ```
 
 #### TS
@@ -124,11 +124,11 @@ console.log(key, value); // 3, 4
 </table>
 
 ```js
-const item: RoundRobinItem = sequentialRound.add('T4');
+const item: RoundRobinItem = sequentialTable.add('T4');
 console.log(item); // { key: 3, value: 'T4' }
 
-const item: RoundRobinItem = randomRound.add('T4');
-console.log(item); // { key: 3, value: 'T4' }
+const item: RoundRobinItem = randomTable.add(25);
+console.log(item); // { key: 3, value: 25 }
 ```
 
 ### count()
@@ -144,9 +144,9 @@ returns the number of items in the table.
 </table>
 
 ```js
-console.log(sequentialRound.count()); // 4
+console.log(sequentialTable.count()); // 4
 
-console.log(randomRound.count()); // 4
+console.log(randomTable.count()); // 4
 ```
 
 ### next()
@@ -163,21 +163,20 @@ returns the next item in the round.
 
 ```js
 // first round
-console.log(sequentialRound.next()); // { key: 0, value: 'T1' }
-console.log(sequentialRound.next()); // { key: 1, value: 'T2' }
-console.log(sequentialRound.next()); // { key: 2, value: 'T3' }
-console.log(sequentialRound.next()); // { key: 3, value: 'T4' }
+console.log(sequentialTable.next()); // { key: 0, value: 'T1' }
+console.log(sequentialTable.next()); // { key: 1, value: 'T2' }
+console.log(sequentialTable.next()); // { key: 2, value: 'T3' }
+console.log(sequentialTable.next()); // { key: 3, value: 'T4' }
 // second round ...
-console.log(sequentialRound.next()); // { key: 0, value: 'T1' }
-
+console.log(sequentialTable.next()); // { key: 0, value: 'T1' }
 
 // first round
-console.log(randomRound.next()); // { key: 3, value: 'T4' }
-console.log(randomRound.next()); // { key: 0, value: 'T1' }
-console.log(randomRound.next()); // { key: 2, value: 'T3' }
-console.log(randomRound.next()); // { key: 1, value: 'T2' }
+console.log(randomTable.next()); // { key: 2, value: 15 }
+console.log(randomTable.next()); // { key: 1, value: 10 }
+console.log(randomTable.next()); // { key: 0, value: 5 }
+console.log(randomTable.next()); // { key: 3, value: 25 }
 // second round ...
-console.log(randomRound.next()); // { key: 2, value: 'T3' }
+console.log(randomTable.next()); // { key: 1, value: 10 }
 ```
 
 ### completedRounds()
@@ -193,9 +192,9 @@ returns the number of completed rounds.
 </table>
 
 ```js
-console.log(sequentialRound.completedRounds()); // 1
+console.log(sequentialTable.completedRounds()); // 1
 
-console.log(randomRound.completedRounds()); // 1
+console.log(randomTable.completedRounds()); // 1
 ```
 
 ### delete(key)
@@ -211,17 +210,17 @@ deletes an item from the table by its key.
 </table>
 
 ```js
-sequentialRound.delete(0);
-sequentialRound.delete(2);
-console.log(sequentialRound.next()); // { key: 1, value: 'T2' }
-console.log(sequentialRound.next()); // { key: 3, value: 'T4' }
-console.log(sequentialRound.next()); // { key: 1, value: 'T2' }
+sequentialTable.delete(0);
+sequentialTable.delete(2);
+console.log(sequentialTable.next()); // { key: 1, value: 'T2' }
+console.log(sequentialTable.next()); // { key: 3, value: 'T4' }
+console.log(sequentialTable.next()); // { key: 1, value: 'T2' }
 
-randomRound.delete(0);
-randomRound.delete(2);
-console.log(sequentialRound.next()); // { key: 3, value: 'T4' }
-console.log(sequentialRound.next()); // { key: 1, value: 'T2' }
-console.log(sequentialRound.next()); // { key: 3, value: 'T4' }
+randomTable.delete(0);
+randomTable.delete(2);
+console.log(randomTable.next()); // { key: 3, value: 25 }
+console.log(randomTable.next()); // { key: 1, value: 10 }
+console.log(randomTable.next()); // { key: 3, value: 25 }
 ```
 
 ### reset()
