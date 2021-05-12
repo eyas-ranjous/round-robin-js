@@ -1,6 +1,6 @@
 {
   "name": "round-robin-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "an implementation of round robin as a data structure",
   "main": "index.js",
   "scripts": {
