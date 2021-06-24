@@ -4,6 +4,8 @@
 
 An implementation of the round robin as a data structure. Two strategies are implemented to select the next item in the round, a Sequential one that selects the next item based on the order of insertion, and a Random one that selects the next item randomly.
 
+<img src="https://user-images.githubusercontent.com/6517308/121813242-859a9700-cc6b-11eb-99c0-49e5bb63005b.jpg">
+
 # Contents
 * [Install](#install)
 * [API](#api)
@@ -119,7 +121,7 @@ console.log(key, value); // 3, 25
   </tr>
   <tr>
     <td align="center">item: T</td>
-    <td align="center">RoundRobinItem</td>
+    <td align="center">RoundRobinItem&lt;T&gt;</td>
   </tr>
 </table>
 
@@ -157,7 +159,7 @@ returns the next item in the round.
     <th align="center">return</th>
   </tr>
   <tr>
-    <td align="center">object (RoundRobinItem)</td>
+    <td align="center">object (RoundRobinItem&lt;T&gt;)</td>
   </tr>
 </table>
 
