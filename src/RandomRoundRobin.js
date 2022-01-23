@@ -12,10 +12,10 @@ const RoundRobin = require('./RoundRobin');
 class RandomRoundRobin extends RoundRobin {
   /**
    * @constructor
-   * @param {array} items
+   * @param {array} values
    */
-  constructor(items) {
-    super(items);
+  constructor(values) {
+    super(values);
     this._init();
   }
 
@@ -23,32 +23,34 @@ class RandomRoundRobin extends RoundRobin {
    * @private
    */
   _init() {
-    this._items = new Map();
     this._keys = new Set();
+    this._values = new Map();
+    this._items = new Map();
     this._round = new Set();
-    this._initialItems.forEach((item) => this.add(item));
+    this._initialValues.forEach((value) => this.add(value));
   }
 
   /**
-   * Adds an item and memoizes its key for random selection
+   * Adds a value to the table
    * @public
-   * @return {object}
+   * @return {any} value
    */
-  add(item) {
+  add(value) {
     const key = this._currentkey;
-    this._items.set(key, { key, value: item });
+    this._items.set(key, { key, value });
     this._keys.add(key);
+    this._values.set(value, [...(this._values.get(value) || []), key]);
     this._currentkey++;
     return this._items.get(key);
   }
 
   /**
-   * Deletes an item with its key from the table
+   * Deletes an item by its key from the table
    * @public
    * @param {number} key
    * @return {boolean}
    */
-  delete(key) {
+  deleteByKey(key) {
     if (!this._keys.has(key)) {
       return false;
     }
@@ -64,6 +66,24 @@ class RandomRoundRobin extends RoundRobin {
     this._round.delete(key);
 
     return this._items.delete(key);
+  }
+
+  /**
+   * Deletes all items that match a value
+   * @public
+   * @param {any} value
+   * @return {boolean}
+   */
+  deleteByValue(value) {
+    if (!this._values.has(value)) {
+      return false;
+    }
+
+    this._values.get(value).forEach((key) => {
+      this.deleteByKey(key);
+    });
+
+    return this._values.delete(value);
   }
 
   /**
@@ -134,9 +154,11 @@ class RandomRoundRobin extends RoundRobin {
    * @return {RoundRobin}
    */
   clear() {
-    this._items = new Map();
     this._keys = new Set();
+    this._values = new Map();
+    this._items = new Map();
     this._round = new Set();
+    this._initialValues = [];
     return super.clear();
   }
 }
