@@ -15,7 +15,7 @@ An implementation of the round robin as a data structure. Two strategies are imp
   * [count()](#count)
   * [next()](#next)
   * [completedRounds()](#completedrounds)
-  * [delete(key)](#deletekey)
+  * [deleteByKey(key)](#deletebykeykey)
   * [reset()](#reset)
   * [clear()](#clear)
  * [Build](#build)
@@ -199,8 +199,8 @@ console.log(sequentialTable.completedRounds()); // 1
 console.log(randomTable.completedRounds()); // 1
 ```
 
-### delete(key)
-deletes an item from the table by its key.
+### deleteByKey(key)
+deletes an item by its key from the table.
 
 <table>
   <tr>

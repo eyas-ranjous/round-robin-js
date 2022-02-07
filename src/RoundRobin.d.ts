@@ -6,7 +6,7 @@ export interface RoundRobinItem<T> {
 export class RoundRobin<T> {
   constructor(values?: T[]);
   add(value: T): RoundRobinItem<T>;
-  delete(key: number): boolean;
+  deleteByKey(key: number): boolean;
   next(): RoundRobinItem<T>;
   count(): number;
   completedRounds(): number;

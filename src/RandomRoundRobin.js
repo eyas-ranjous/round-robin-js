@@ -41,12 +41,12 @@ class RandomRoundRobin extends RoundRobin {
   }
 
   /**
-   * Deletes an item with its key from the table
+   * Deletes an item by its key from the table
    * @public
    * @param {number} key
    * @return {boolean}
    */
-  delete(key) {
+  deleteByKey(key) {
     if (!this._items.has(key)) {
       return false;
     }
