@@ -13,10 +13,10 @@ const RoundRobin = require('./RoundRobin');
 class SequentialRoundRobin extends RoundRobin {
   /**
    * @constructor
-   * @param {array} items
+   * @param {array} values
    */
-  constructor(items) {
-    super(items);
+  constructor(values) {
+    super(values);
     this._init();
   }
 
@@ -26,19 +26,19 @@ class SequentialRoundRobin extends RoundRobin {
   _init() {
     this._items = new DoublyLinkedList();
     this._itemNodes = new Map();
-    this._initialItems.forEach((item) => this.add(item));
+    this._initialValues.forEach((value) => this.add(value));
   }
 
   /**
    * Adds a new item to the table
    * @public
-   * @param {any} item
-   * @return {object}
+   * @public
+   * @return {any} value
    */
-  add(item) {
+  add(value) {
     this._itemNodes.set(
       this._currentkey,
-      this._items.insertLast({ key: this._currentkey++, value: item })
+      this._items.insertLast({ key: this._currentkey++, value })
     );
     return this._items.tail().getValue();
   }

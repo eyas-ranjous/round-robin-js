@@ -12,10 +12,10 @@ const RoundRobin = require('./RoundRobin');
 class RandomRoundRobin extends RoundRobin {
   /**
    * @constructor
-   * @param {array} items
+   * @param {array} values
    */
-  constructor(items) {
-    super(items);
+  constructor(values) {
+    super(values);
     this._init();
   }
 
@@ -26,17 +26,17 @@ class RandomRoundRobin extends RoundRobin {
     this._items = new Map();
     this._keys = new Set();
     this._round = new Set();
-    this._initialItems.forEach((item) => this.add(item));
+    this._initialValues.forEach((value) => this.add(value));
   }
 
   /**
-   * Adds an item and memoizes its key for random selection
+   * Adds a value to the table
    * @public
-   * @return {object}
+   * @return {any} value
    */
-  add(item) {
+  add(value) {
     const key = this._currentkey;
-    this._items.set(key, { key, value: item });
+    this._items.set(key, { key, value });
     this._keys.add(key);
     this._currentkey++;
     return this._items.get(key);
