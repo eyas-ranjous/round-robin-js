@@ -52,7 +52,7 @@ class RandomRoundRobin extends RoundRobin {
     }
 
     if (this._currentTurn && this._currentTurn.key === key) {
-      this._currentTurn = this._selectNextItem();
+      this._currentTurn = this._nextTurn();
       if (this._currentTurn === null) {
         this._completedRounds += 1;
       }
@@ -67,7 +67,7 @@ class RandomRoundRobin extends RoundRobin {
    * @public
    * @return {object}
    */
-  _selectNextItem() {
+  _nextTurn() {
     if (this._currentTurn === null) {
       this._round = new Set(Array.from(this._items.keys()));
     }
@@ -93,11 +93,11 @@ class RandomRoundRobin extends RoundRobin {
     }
 
     if (this._currentTurn === null) {
-      this._currentTurn = this._selectNextItem();
+      this._currentTurn = this._nextTurn();
     }
 
     const item = this._currentTurn;
-    this._currentTurn = this._selectNextItem();
+    this._currentTurn = this._nextTurn();
     if (this._currentTurn === null) {
       this._completedRounds += 1;
     }
