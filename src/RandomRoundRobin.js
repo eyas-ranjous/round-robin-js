@@ -24,7 +24,6 @@ class RandomRoundRobin extends RoundRobin {
    */
   _init() {
     this._items = new Map();
-    this._keys = new Set();
     this._round = new Set();
     this._initialValues.forEach((value) => this.add(value));
   }
@@ -37,7 +36,6 @@ class RandomRoundRobin extends RoundRobin {
   add(value) {
     const key = this._currentkey;
     this._items.set(key, { key, value });
-    this._keys.add(key);
     this._currentkey++;
     return this._items.get(key);
   }
@@ -49,7 +47,7 @@ class RandomRoundRobin extends RoundRobin {
    * @return {boolean}
    */
   delete(key) {
-    if (!this._keys.has(key)) {
+    if (!this._items.has(key)) {
       return false;
     }
 
@@ -60,9 +58,7 @@ class RandomRoundRobin extends RoundRobin {
       }
     }
 
-    this._keys.delete(key);
     this._round.delete(key);
-
     return this._items.delete(key);
   }
 
@@ -73,17 +69,17 @@ class RandomRoundRobin extends RoundRobin {
    */
   _selectNextItem() {
     if (this._currentTurn === null) {
-      this._round = new Set(this._keys);
+      this._round = new Set(Array.from(this._items.keys()));
     }
 
-    const keys = Array.from(this._round);
-    if (keys.length === 0) {
+    if (this._round.size === 0) {
       return null;
     }
 
-    const randomKey = keys[Math.floor(Math.random() * keys.length)];
-    this._round.delete(randomKey);
-    return this._items.get(randomKey);
+    const roundKeys = Array.from(this._round);
+    const selectedKey = roundKeys[Math.floor(Math.random() * roundKeys.length)];
+    this._round.delete(selectedKey);
+    return this._items.get(selectedKey);
   }
 
   /**
