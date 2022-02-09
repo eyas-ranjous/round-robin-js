@@ -14,8 +14,8 @@ An implementation of the round robin as a data structure. Two strategies are imp
   * [add(item)](#additem)
   * [count()](#count)
   * [next()](#next)
-  * [completedRounds()](#completedrounds)
   * [deleteByKey(key)](#deletebykeykey)
+  * [deleteByValue(cb)](#deletebyvaluecb)
   * [reset()](#reset)
   * [clear()](#clear)
  * [Build](#build)
@@ -181,24 +181,6 @@ console.log(randomTable.next()); // { key: 3, value: 25 }
 console.log(randomTable.next()); // { key: 1, value: 10 }
 ```
 
-### completedRounds()
-returns the number of completed rounds.
-
-<table>
-  <tr>
-    <th align="center">return</th>
-  </tr>
-  <tr>
-    <td align="center">number</td>
-  </tr>
-</table>
-
-```js
-console.log(sequentialTable.completedRounds()); // 1
-
-console.log(randomTable.completedRounds()); // 1
-```
-
 ### deleteByKey(key)
 deletes an item by its key from the table.
 
@@ -212,30 +194,42 @@ deletes an item by its key from the table.
 </table>
 
 ```js
-sequentialTable.delete(0);
-sequentialTable.delete(2);
+sequentialTable.deleteByKey(0);
+sequentialTable.deleteByKey(2);
 console.log(sequentialTable.next()); // { key: 1, value: 'T2' }
 console.log(sequentialTable.next()); // { key: 3, value: 'T4' }
 console.log(sequentialTable.next()); // { key: 1, value: 'T2' }
 
-randomTable.delete(0);
-randomTable.delete(2);
+randomTable.deleteByKey(0);
+randomTable.deleteByKey(2);
 console.log(randomTable.next()); // { key: 3, value: 25 }
 console.log(randomTable.next()); // { key: 1, value: 10 }
 console.log(randomTable.next()); // { key: 3, value: 25 }
 ```
 
+### deleteByValue(cb)
+deletes items that match a criteria from the table.
+
+<table>
+  <tr>
+    <th align="center">params</th>
+    <th align="center">return</th>
+  </tr>
+  <tr>
+    <td align="center">cb: (value: T) => boolean</td>
+    <td align="center">number</td>
+  </tr>
+</table>
+
 ### reset()
-resets the table with the intial items and clears completed rounds.
+resets the table with the intial values.
 
 ```js
 sequentialTable.reset();
 console.log(sequentialTable.count()); // 3
-console.log(sequentialTable.completedRounds()); // 0
 
 randomTable.reset();
 console.log(randomTable.count()); // 3
-console.log(randomTable.completedRounds()); // 0
 ```
 
 ### clear()
@@ -244,11 +238,9 @@ clears all values in the table.
 ```js
 sequentialTable.clear();
 console.log(sequentialTable.count()); // 0
-console.log(sequentialTable.completedRounds()); // 0
 
 randomTable.clear();
 console.log(randomTable.count()); // 0
-console.log(randomTable.completedRounds()); // 0
 ```
 
 ## Build

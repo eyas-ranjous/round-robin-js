@@ -32,8 +32,8 @@ class SequentialRoundRobin extends RoundRobin {
   /**
    * Adds a new item to the table
    * @public
-   * @public
-   * @return {any} value
+   * @param {any} value
+   * @return {any}
    */
   add(value) {
     this._itemNodes.set(
@@ -56,13 +56,28 @@ class SequentialRoundRobin extends RoundRobin {
 
     if (this._currentTurn && this._currentTurn.getValue().key === key) {
       this._currentTurn = this._currentTurn.getNext();
-      if (this._currentTurn === null) {
-        this._completedRounds += 1;
-      }
     }
 
     this._items.remove(this._itemNodes.get(key));
     return this._itemNodes.delete(key);
+  }
+
+  /**
+   * Deletes items that their values match a criteria
+   * @public
+   * @param {function} cb
+   * @return {number}
+   */
+  deleteByValue(cb) {
+    const deletedKeys = [];
+    this._items.forEach((itemNode) => {
+      const { key, value } = itemNode.getValue();
+      if (cb(value)) {
+        deletedKeys.push(key);
+      }
+    });
+    deletedKeys.map((key) => this.deleteByKey(key));
+    return deletedKeys.length;
   }
 
   /**
@@ -81,10 +96,6 @@ class SequentialRoundRobin extends RoundRobin {
 
     const item = this._currentTurn.getValue();
     this._currentTurn = this._currentTurn.getNext();
-    if (this._currentTurn === null) {
-      this._completedRounds += 1;
-    }
-
     return item;
   }
 

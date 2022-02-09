@@ -29,7 +29,6 @@ describe('SequentialRoundRobin tests', () => {
       const next4 = round.next();
       expect(next4.key).to.equal(3);
       expect(next4.value).to.equal('item 4');
-      expect(round.completedRounds()).to.equal(1);
 
       const next5 = round.next();
       expect(next5.key).to.equal(0);
@@ -37,8 +36,8 @@ describe('SequentialRoundRobin tests', () => {
     });
   });
 
-  describe('delete', () => {
-    it('removes items from the round', () => {
+  describe('deleteByKey', () => {
+    it('delete items by key', () => {
       round.deleteByKey(1);
       round.deleteByKey(3);
       expect(round.count()).to.equal(2);
@@ -63,6 +62,20 @@ describe('SequentialRoundRobin tests', () => {
       const next5 = round.next();
       expect(next5.key).to.equal(0);
       expect(next5.value).to.equal('item 1');
+    });
+  });
+
+  describe('deleteByValue', () => {
+    it('deletes items by value', () => {
+      const round2 = new SequentialRoundRobin(['n1', 'val1', 'n2', 'val2']);
+      round2.next();
+      round2.next();
+
+      const deletedCount = round2.deleteByValue((val) => val.includes('n'));
+      expect(deletedCount).to.equal(2);
+      expect(round2.count()).to.equal(2);
+      expect(round2.next()).to.eql({ key: 3, value: 'val2' });
+      expect(round2.next()).to.eql({ key: 1, value: 'val1' });
     });
   });
 

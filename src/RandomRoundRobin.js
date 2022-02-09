@@ -53,13 +53,27 @@ class RandomRoundRobin extends RoundRobin {
 
     if (this._currentTurn && this._currentTurn.key === key) {
       this._currentTurn = this._nextTurn();
-      if (this._currentTurn === null) {
-        this._completedRounds += 1;
-      }
     }
 
     this._round.delete(key);
     return this._items.delete(key);
+  }
+
+  /**
+   * Deletes items that their values match a criteria
+   * @public
+   * @param {function} cb
+   * @return {number}
+   */
+  deleteByValue(cb) {
+    let deleted = 0;
+    this._items.forEach(({ key, value }) => {
+      if (cb(value)) {
+        this.deleteByKey(key);
+        deleted += 1;
+      }
+    });
+    return deleted;
   }
 
   /**
@@ -69,7 +83,8 @@ class RandomRoundRobin extends RoundRobin {
    */
   _nextTurn() {
     if (this._currentTurn === null) {
-      this._round = new Set(Array.from(this._items.keys()));
+      const keys = Array.from(this._items.keys());
+      this._round = new Set(keys);
     }
 
     if (this._round.size === 0) {
@@ -98,10 +113,6 @@ class RandomRoundRobin extends RoundRobin {
 
     const item = this._currentTurn;
     this._currentTurn = this._nextTurn();
-    if (this._currentTurn === null) {
-      this._completedRounds += 1;
-    }
-
     return item;
   }
 

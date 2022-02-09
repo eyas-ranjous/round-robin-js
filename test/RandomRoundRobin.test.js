@@ -26,7 +26,7 @@ describe('RandomRoundRobin tests', () => {
   });
 
   describe('deleteByKey', () => {
-    it('removes items from the round', () => {
+    it('deletes items by key', () => {
       round.deleteByKey(0);
       round.deleteByKey(2);
       expect(round.count()).to.equal(2);
@@ -37,6 +37,19 @@ describe('RandomRoundRobin tests', () => {
       ];
       expect(items.find((item) => item.key === 0)).to.equal(undefined);
       expect(items.find((item) => item.key === 2)).to.equal(undefined);
+    });
+  });
+
+  describe('deleteByValue', () => {
+    it('deletes items by value', () => {
+      const round2 = new RandomRoundRobin(['n1', 'val1', 'n2', 'n3']);
+      round2.next();
+      round2.next();
+
+      const deletedCount = round2.deleteByValue((val) => val.includes('n'));
+      expect(deletedCount).to.equal(3);
+      expect(round2.count()).to.equal(1);
+      expect(round2.next().value).to.equal('val1');
     });
   });
 

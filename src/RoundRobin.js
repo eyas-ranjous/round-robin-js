@@ -21,17 +21,7 @@ class RoundRobin {
 
     this._initialValues = values;
     this._currentkey = 0;
-    this._completedRounds = 0;
     this._currentTurn = null;
-  }
-
-  /**
-   * Returns number of completed round of turns
-   * @public
-   * @return {number}
-   */
-  completedRounds() {
-    return this._completedRounds;
   }
 
   /**
@@ -41,7 +31,6 @@ class RoundRobin {
    */
   clear() {
     this._currentkey = 0;
-    this._completedRounds = 0;
     this._currentTurn = null;
     return this;
   }
