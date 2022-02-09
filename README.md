@@ -208,7 +208,7 @@ console.log(randomTable.next()); // { key: 3, value: 25 }
 ```
 
 ### deleteByValue(cb)
-deletes items that match a criteria from the table and returns the number of deleted items.
+deletes items with values that match a criteria from the table and returns the number of deleted items.
 
 <table>
   <tr>
