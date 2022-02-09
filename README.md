@@ -208,7 +208,7 @@ console.log(randomTable.next()); // { key: 3, value: 25 }
 ```
 
 ### deleteByValue(cb)
-deletes items that match a criteria from the table.
+deletes items that match a criteria from the table and returns the number of deleted items.
 
 <table>
   <tr>
@@ -220,6 +220,24 @@ deletes items that match a criteria from the table.
     <td align="center">number</td>
   </tr>
 </table>
+
+```js
+const seqTable = new SequentialRoundRobin<number>([2, 3, 5, 6, 7, 10]);
+const ranTable = new RandomRoundRobin<{ id: string }>([
+  { id: '123' },
+  { id: 'id456' },
+  { id: '456' },
+  { id: 'id780' }
+]);
+
+const d1 = seqTable.deleteByValue((n) => n % 2 === 1); // 3
+console.log(seqTable.next(), seqTable.next(), seqTable.next())
+// { key: 0, value: 2 } { key: 3, value: 6 } { key: 5, value: 10 }
+
+const d2 = ranTable.deleteByValue((obj) => obj.id.indexOf('id') === 0); // 2
+console.log(ranTable.next(), ranTable.next())
+// { key: 2, value: { id: '456' } } { key: 0, value: { id: '123' } }
+```
 
 ### reset()
 resets the table with the intial values.
