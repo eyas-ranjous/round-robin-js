@@ -12,25 +12,16 @@
 class RoundRobin {
   /**
    * @constructor
-   * @param {array} items
+   * @param {array} values
    */
-  constructor(items = []) {
-    if (items && !Array.isArray(items)) {
-      throw new Error('items must be an array');
+  constructor(values = []) {
+    if (values && !Array.isArray(values)) {
+      throw new Error('RoundRobin constructor: values must be an array');
     }
-    this._initialItems = items;
-    this._currentkey = 0;
-    this._completedRounds = 0;
-    this._currentTurn = null;
-  }
 
-  /**
-   * Returns number of completed round of turns
-   * @public
-   * @return {number}
-   */
-  completedRounds() {
-    return this._completedRounds;
+    this._initialValues = values;
+    this._currentkey = 0;
+    this._currentTurn = null;
   }
 
   /**
@@ -40,7 +31,6 @@ class RoundRobin {
    */
   clear() {
     this._currentkey = 0;
-    this._completedRounds = 0;
     this._currentTurn = null;
     return this;
   }

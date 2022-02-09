@@ -4,9 +4,10 @@ export interface RoundRobinItem<T> {
 }
 
 export class RoundRobin<T> {
-  constructor(items?: T[]);
-  add(item: T): RoundRobinItem<T>;
-  delete(key: number): boolean;
+  constructor(values?: T[]);
+  add(value: T): RoundRobinItem<T>;
+  deleteByKey(key: number): boolean;
+  deleteByValue(cb: (value: T) => boolean): number;
   next(): RoundRobinItem<T>;
   count(): number;
   completedRounds(): number;

@@ -14,8 +14,8 @@ An implementation of the round robin as a data structure. Two strategies are imp
   * [add(item)](#additem)
   * [count()](#count)
   * [next()](#next)
-  * [completedRounds()](#completedrounds)
-  * [delete(key)](#deletekey)
+  * [deleteByKey(key)](#deletebykeykey)
+  * [deleteByValue(cb)](#deletebyvaluecb)
   * [reset()](#reset)
   * [clear()](#clear)
  * [Build](#build)
@@ -181,26 +181,8 @@ console.log(randomTable.next()); // { key: 3, value: 25 }
 console.log(randomTable.next()); // { key: 1, value: 10 }
 ```
 
-### completedRounds()
-returns the number of completed rounds.
-
-<table>
-  <tr>
-    <th align="center">return</th>
-  </tr>
-  <tr>
-    <td align="center">number</td>
-  </tr>
-</table>
-
-```js
-console.log(sequentialTable.completedRounds()); // 1
-
-console.log(randomTable.completedRounds()); // 1
-```
-
-### delete(key)
-deletes an item from the table by its key.
+### deleteByKey(key)
+deletes an item by its key from the table.
 
 <table>
   <tr>
@@ -212,30 +194,60 @@ deletes an item from the table by its key.
 </table>
 
 ```js
-sequentialTable.delete(0);
-sequentialTable.delete(2);
+sequentialTable.deleteByKey(0);
+sequentialTable.deleteByKey(2);
 console.log(sequentialTable.next()); // { key: 1, value: 'T2' }
 console.log(sequentialTable.next()); // { key: 3, value: 'T4' }
 console.log(sequentialTable.next()); // { key: 1, value: 'T2' }
 
-randomTable.delete(0);
-randomTable.delete(2);
+randomTable.deleteByKey(0);
+randomTable.deleteByKey(2);
 console.log(randomTable.next()); // { key: 3, value: 25 }
 console.log(randomTable.next()); // { key: 1, value: 10 }
 console.log(randomTable.next()); // { key: 3, value: 25 }
 ```
 
+### deleteByValue(cb)
+deletes items with values that match a criteria from the table and returns the number of deleted items.
+
+<table>
+  <tr>
+    <th align="center">params</th>
+    <th align="center">return</th>
+  </tr>
+  <tr>
+    <td align="center">cb: (value: T) => boolean</td>
+    <td align="center">number</td>
+  </tr>
+</table>
+
+```js
+const seqTable = new SequentialRoundRobin<number>([2, 3, 5, 6, 7, 10]);
+const ranTable = new RandomRoundRobin<{ id: string }>([
+  { id: '123' },
+  { id: 'id456' },
+  { id: '456' },
+  { id: 'id780' }
+]);
+
+const d1 = seqTable.deleteByValue((n) => n % 2 === 1); // 3
+console.log(seqTable.next(), seqTable.next(), seqTable.next())
+// { key: 0, value: 2 } { key: 3, value: 6 } { key: 5, value: 10 }
+
+const d2 = ranTable.deleteByValue((obj) => obj.id.indexOf('id') === 0); // 2
+console.log(ranTable.next(), ranTable.next())
+// { key: 2, value: { id: '456' } } { key: 0, value: { id: '123' } }
+```
+
 ### reset()
-resets the table with the intial items and clears completed rounds.
+resets the table with the intial values.
 
 ```js
 sequentialTable.reset();
 console.log(sequentialTable.count()); // 3
-console.log(sequentialTable.completedRounds()); // 0
 
 randomTable.reset();
 console.log(randomTable.count()); // 3
-console.log(randomTable.completedRounds()); // 0
 ```
 
 ### clear()
@@ -244,11 +256,9 @@ clears all values in the table.
 ```js
 sequentialTable.clear();
 console.log(sequentialTable.count()); // 0
-console.log(sequentialTable.completedRounds()); // 0
 
 randomTable.clear();
 console.log(randomTable.count()); // 0
-console.log(randomTable.completedRounds()); // 0
 ```
 
 ## Build
