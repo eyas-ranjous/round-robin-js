@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/eyas-ranjous/round-robin-js#readme",
   "dependencies": {
-    "@datastructures-js/linked-list": "^5.0.1"
+    "@datastructures-js/linked-list": "^5.1.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
