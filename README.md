@@ -11,7 +11,7 @@ An implementation of the round robin as a data structure. Two strategies are imp
 * [API](#api)
   * [import](#import)
   * [constructor](#constructor)
-  * [add(item)](#additem)
+  * [add(value)](#addvalue)
   * [count()](#count)
   * [next()](#next)
   * [deleteByKey(key)](#deletebykeykey)
@@ -88,7 +88,7 @@ const sequentialTable = new SequentialRoundRobin<string>(['T1', 'T2', 'T3']);
 const randomTable = new RandomRoundRobin<number>([5, 10, 15]);
 ```
 
-### add(item)
+### add(value)
 adds a new item to the table.
 
 #### JS
@@ -99,7 +99,7 @@ adds a new item to the table.
     <th align="center">return</th>
   </tr>
   <tr>
-    <td align="center">item: any</td>
+    <td align="center">value: any</td>
     <td align="center">object</td>
   </tr>
 </table>
@@ -120,7 +120,7 @@ console.log(key, value); // 3, 25
     <th align="center">return</th>
   </tr>
   <tr>
-    <td align="center">item: T</td>
+    <td align="center">value: T</td>
     <td align="center">RoundRobinItem&lt;T&gt;</td>
   </tr>
 </table>
