@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2022-feb-11
+### Fixed
+- readme
+
 ## [2.0.0] - 2022-feb-09
 ### Changed
 - deleteByKey to delete item by its key
