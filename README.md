@@ -52,7 +52,7 @@ import {
 ```
 
 ### constructor
-constructor accepts an initial list of items that will be loaded internally and given unique keys.
+accepts an initial list of values.
 
 #### JS
 
@@ -61,7 +61,7 @@ constructor accepts an initial list of items that will be loaded internally and 
     <th align="center">params</th>
   </tr>
   <tr>
-    <td align="center">items: array</td>
+    <td align="center">values: array</td>
   </tr>
 </table>
 
@@ -78,7 +78,7 @@ const randomTable = new RandomRoundRobin([5, 10, 15]);
     <th align="center">params</th>
   </tr>
   <tr>
-    <td align="center">items: T[]</td>
+    <td align="center">values: T[]</td>
   </tr>
 </table>
 
