@@ -31,7 +31,8 @@ class RandomRoundRobin extends RoundRobin {
   /**
    * Adds a value to the table
    * @public
-   * @return {any} value
+   * @param {any} value
+   * @return {object}
    */
   add(value) {
     const key = this._currentkey;

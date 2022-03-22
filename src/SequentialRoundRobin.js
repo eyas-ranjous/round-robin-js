@@ -33,7 +33,7 @@ class SequentialRoundRobin extends RoundRobin {
    * Adds a new item to the table
    * @public
    * @param {any} value
-   * @return {any}
+   * @return {object}
    */
   add(value) {
     this._itemNodes.set(
