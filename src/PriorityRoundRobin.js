@@ -4,7 +4,7 @@
  * @license MIT
  */
 
-const { MinPriorityQueue } = require('@datastructures-js/priority-queue');
+const { PriorityQueue } = require('@datastructures-js/priority-queue');
 
 const RoundRobin = require('./RoundRobin');
 
@@ -16,24 +16,15 @@ class PriorityRoundRobin extends RoundRobin {
    * @constructor
    * @param {array} values
    */
-  constructor(values) {
+  constructor(compare, values) {
     super(values);
+    this._compare = (a, b) => compare(a.value, b.value);
     this._init();
   }
 
-  /**
-   * @private
-   */
-  _createQueue() {
-    return new MinPriorityQueue((queueItem) => queueItem.priority);
-  }
-
-  /**
-   * @private
-   */
   _init() {
-    this._items = this._createQueue();
-    this._round = this._createQueue();
+    this._items = new PriorityQueue(this._compare);
+    this._round = [];
     this._initialValues.forEach((value) => this.add(value));
   }
 
@@ -44,18 +35,10 @@ class PriorityRoundRobin extends RoundRobin {
    * @param {number} p
    * @return {object}
    */
-  add(value, p) {
-    let priority = +p;
-    if (Number.isNaN(priority)) {
-      if (!Number.isNaN(+value)) {
-        priority = +value;
-      } else {
-        throw new Error('PriorityRoundRobin.add: missing numeric priority');
-      }
-    }
+  add(value) {
     const key = this._currentkey;
     const item = { key, value };
-    this._items.enqueue({ priority, item });
+    this._items.push(item);
     this._currentkey++;
     return item;
   }
@@ -68,11 +51,11 @@ class PriorityRoundRobin extends RoundRobin {
    */
   deleteByKey(key) {
     let deleted = false;
-    const updatedItems = this._createQueue();
+    const updatedItems = new PriorityQueue(this._compare);
     while (!this._items.isEmpty()) {
-      const { priority, item } = this._items.dequeue();
+      const { priority, item } = this._items.pop();
       if (item.key !== key) {
-        updatedItems.enqueue({ priority, item });
+        updatedItems.push({ priority, item });
       } else {
         deleted = true;
       }
@@ -89,11 +72,11 @@ class PriorityRoundRobin extends RoundRobin {
    */
   deleteByValue(cb) {
     let deleted = 0;
-    const updatedItems = this._createQueue();
+    const updatedItems = new PriorityQueue(this._compare);
     while (!this._items.isEmpty()) {
-      const { priority, item } = this._items.dequeue();
+      const { priority, item } = this._items.pop();
       if (!cb(item.value)) {
-        updatedItems.enqueue({ priority, item });
+        updatedItems.push({ priority, item });
       } else {
         deleted += 1;
       }
@@ -108,22 +91,26 @@ class PriorityRoundRobin extends RoundRobin {
    * @return {object}
    */
   next() {
-    if (this._items.size() === 0 && this._round.size() === 0) {
+    if (this._items.isEmpty() && this._round.length === 0) {
       return null;
     }
 
-    if (this._items.size() === 0) {
-      this._items = this._round;
-      this._round = this._createQueue();
+    if (this._currentTurn === null) {
+      if (this._items.isEmpty()) {
+        this._items = new PriorityQueue(this._compare, this._round.slice());
+        this._round = [];
+      }
+      this._currentTurn = this._items.pop();
     }
 
-    const { priority, item } = this._items.dequeue();
-    this._round.enqueue({ priority, item });
+    const item = this._currentTurn;
+    this._currentTurn = this._items.pop();
+    this._round.push(item);
     return item;
   }
 
   /**
-   * Returns number of items on the table
+   * Returns number of remaining items on the table
    * @return {number}
    */
   count() {
@@ -147,8 +134,7 @@ class PriorityRoundRobin extends RoundRobin {
    * @return {RoundRobin}
    */
   clear() {
-    this._items = this._createQueue();
-    this._round = this._createQueue();
+    this._items = this._createQueue(this._compare);
     return super.clear();
   }
 }

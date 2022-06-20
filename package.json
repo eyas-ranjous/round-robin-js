@@ -11,7 +11,8 @@
     "url": "git+https://github.com/eyas-ranjous/round-robin-js.git"
   },
   "keywords": [
-    "round robin"
+    "round robin",
+    "round robin js"
   ],
   "author": "Eyas Ranjous <eyas.ranjous@gmail.com>",
   "license": "MIT",
@@ -20,8 +21,8 @@
   },
   "homepage": "https://github.com/eyas-ranjous/round-robin-js#readme",
   "dependencies": {
-    "@datastructures-js/linked-list": "^5.1.1",
-    "@datastructures-js/priority-queue": "^6.0.0"
+    "@datastructures-js/linked-list": "^5.2.2",
+    "@datastructures-js/priority-queue": "^6.1.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
