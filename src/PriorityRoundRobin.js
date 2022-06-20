@@ -53,9 +53,9 @@ class PriorityRoundRobin extends RoundRobin {
     let deleted = false;
     const updatedItems = new PriorityQueue(this._compare);
     while (!this._items.isEmpty()) {
-      const { priority, item } = this._items.pop();
+      const item = this._items.pop();
       if (item.key !== key) {
-        updatedItems.push({ priority, item });
+        updatedItems.push(item);
       } else {
         deleted = true;
       }
@@ -74,9 +74,9 @@ class PriorityRoundRobin extends RoundRobin {
     let deleted = 0;
     const updatedItems = new PriorityQueue(this._compare);
     while (!this._items.isEmpty()) {
-      const { priority, item } = this._items.pop();
+      const item = this._items.pop();
       if (!cb(item.value)) {
-        updatedItems.push({ priority, item });
+        updatedItems.push(item);
       } else {
         deleted += 1;
       }
