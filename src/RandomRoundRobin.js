@@ -31,7 +31,7 @@ class RandomRoundRobin extends RoundRobin {
   /**
    * Adds a value to the table
    * @public
-   * @param {any} value
+   * @param {number|string|object} value
    * @return {object}
    */
   add(value) {

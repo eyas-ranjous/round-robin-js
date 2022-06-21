@@ -32,7 +32,7 @@ class SequentialRoundRobin extends RoundRobin {
   /**
    * Adds a new item to the table
    * @public
-   * @param {any} value
+   * @param {number|string|object} value
    * @return {object}
    */
   add(value) {
