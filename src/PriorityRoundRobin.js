@@ -31,7 +31,7 @@ class PriorityRoundRobin extends RoundRobin {
    */
   _init() {
     this._items = new PriorityQueue(this._compare);
-    this._round = new PriorityQueue(this._compare);;
+    this._round = new PriorityQueue(this._compare);
     this._initialValues.forEach((value) => this.add(value));
   }
 
