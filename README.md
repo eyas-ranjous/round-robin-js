@@ -1,8 +1,12 @@
 # round-robin-js
 
-[![build:?](https://travis-ci.org/eyas-ranjous/round-robin-js.svg?branch=main)](https://travis-ci.org/eyas-ranjous/round-robin-js) [![npm](https://img.shields.io/npm/v/round-robin-js.svg)](https://www.npmjs.com/package/round-robin-js) [![npm](https://img.shields.io/npm/dm/round-robin-js.svg)](https://www.npmjs.com/package/round-robin-js) [![npm](https://img.shields.io/badge/node-%3E=%206.0-blue.svg)](https://www.npmjs.com/package/round-robin-js)
+[![npm](https://img.shields.io/npm/v/round-robin-js.svg)](https://www.npmjs.com/package/round-robin-js) [![npm](https://img.shields.io/npm/dm/round-robin-js.svg)](https://www.npmjs.com/package/round-robin-js) [![npm](https://img.shields.io/badge/node-%3E=%206.0-blue.svg)](https://www.npmjs.com/package/round-robin-js)
 
-An implementation of the round robin as a data structure. Two strategies are implemented to select the next item in the round, a Sequential one that selects the next item based on the order of insertion, and a Random one that selects the next item randomly.
+An implementation of the round robin as a data structure. The following strategies are implemented 
+
+**SequentialRoundRobin**: selects next item based on the order of insertion.
+**RandomRoundRobin**: select next item randomly.
+**PriorityRoundRobin**: select next item based on its priority. 
 
 <img src="https://user-images.githubusercontent.com/6517308/121813242-859a9700-cc6b-11eb-99c0-49e5bb63005b.jpg">
 
@@ -134,7 +138,7 @@ console.log(item); // { key: 3, value: 25 }
 ```
 
 ### count()
-returns the number of items in the table.
+returns the current number of items on the table.
 
 <table>
   <tr>
