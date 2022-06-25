@@ -10,8 +10,6 @@ export class RoundRobin<T> {
   deleteByValue(cb: (value: T) => boolean): number;
   next(): RoundRobinItem<T>;
   count(): number;
-  completedRounds(): number;
-  currentTurn(): RoundRobinItem<T>;
   reset(): RoundRobin<T>;
   clear(): RoundRobin<T>;
 }
