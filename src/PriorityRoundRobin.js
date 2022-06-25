@@ -30,9 +30,17 @@ class PriorityRoundRobin extends RoundRobin {
    * @private
    */
   _init() {
-    this._items = new PriorityQueue(this._compare);
-    this._round = new PriorityQueue(this._compare);
+    this._items = this._createQueue();
+    this._round = this._createQueue();
     this._initialValues.forEach((value) => this.add(value));
+  }
+
+  /**
+   * Creates a priority queue
+   * @private
+   */
+  _createQueue() {
+    return new PriorityQueue(this._compare);
   }
 
   /**
@@ -57,14 +65,13 @@ class PriorityRoundRobin extends RoundRobin {
    */
   deleteByKey(key) {
     let deleted = false;
-    let updatedItems = new PriorityQueue(this._compare);
+    let updatedItems = this._createQueue();
     while (!this._items.isEmpty()) {
       const item = this._items.pop();
       if (item.key !== key) {
         updatedItems.push(item);
       } else {
         deleted = true;
-        break;
       }
     }
     this._items = updatedItems;
@@ -72,14 +79,13 @@ class PriorityRoundRobin extends RoundRobin {
       return deleted;
     }
 
-    updatedItems = new PriorityQueue(this._compare);
+    updatedItems = this._createQueue();
     while (!this._round.isEmpty()) {
       const item = this._round.pop();
       if (item.key !== key) {
         updatedItems.push(item);
       } else {
         deleted = true;
-        break;
       }
     }
     this._round = updatedItems;
@@ -94,7 +100,7 @@ class PriorityRoundRobin extends RoundRobin {
    */
   deleteByValue(cb) {
     let deleted = 0;
-    let updatedItems = new PriorityQueue(this._compare);
+    let updatedItems = this._createQueue();
     while (!this._items.isEmpty()) {
       const item = this._items.pop();
       if (!cb(item.value)) {
@@ -104,7 +110,7 @@ class PriorityRoundRobin extends RoundRobin {
       }
     }
     this._items = updatedItems;
-    updatedItems = new PriorityQueue(this._compare);
+    updatedItems = this._createQueue();
     while (!this._round.isEmpty()) {
       const item = this._round.pop();
       if (!cb(item.value)) {
@@ -123,30 +129,26 @@ class PriorityRoundRobin extends RoundRobin {
    * @return {object}
    */
   next() {
-    if (this._items.isEmpty() && this._round.length === 0) {
+    if (this._items.isEmpty() && this._round.isEmpty()) {
       return null;
     }
 
-    if (this._currentTurn === null) {
-      if (this._items.isEmpty()) {
-        this._items = this._round;
-        this._round = new PriorityQueue(this._compare);
-      }
-      this._currentTurn = this._items.pop();
+    if (this._items.isEmpty()) {
+      this._items = this._round;
+      this._round = this._createQueue();
     }
 
-    const item = this._currentTurn;
     this._currentTurn = this._items.pop();
-    this._round.push(item);
-    return item;
+    this._round.push(this._currentTurn);
+    return this._currentTurn;
   }
 
   /**
-   * Returns number of remaining items on the table
+   * Returns number of items
    * @return {number}
    */
   count() {
-    return this._items.size();
+    return this._items.size() + this._round.size();
   }
 
   /**
@@ -166,7 +168,7 @@ class PriorityRoundRobin extends RoundRobin {
    * @return {RoundRobin}
    */
   clear() {
-    this._items = this._createQueue(this._compare);
+    this._items = this._createQueue();
     return super.clear();
   }
 }

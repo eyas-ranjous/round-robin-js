@@ -118,7 +118,7 @@ class RandomRoundRobin extends RoundRobin {
   }
 
   /**
-   * Returns number of items on the table
+   * Returns number of items
    * @return {number}
    */
   count() {
