@@ -5,8 +5,8 @@
 An implementation of the round robin as a data structure. The following strategies are implemented 
 
 **SequentialRoundRobin**: selects next item based on the order of insertion.<br/>
-**RandomRoundRobin**: select next item randomly.
-**PriorityRoundRobin**: select next item based on its priority. 
+**RandomRoundRobin**: select next item randomly.<br/>
+**PriorityRoundRobin**: select next item based on its priority.<br/>
 
 <img src="https://user-images.githubusercontent.com/6517308/121813242-859a9700-cc6b-11eb-99c0-49e5bb63005b.jpg">
 
