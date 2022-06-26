@@ -166,19 +166,16 @@ availableServers.next(); // { key: 1, value: { hostname: 's1.test.com', load: 30
 ```
 
 ### reset
-resets the table with the intial values that were provided in constructor.
+resets the round selection from the start.
 
 ```js
-cpusTable.reset();
-cpusTable.count(); // 3
-cpusTable.next(); // { key: 0, value: 1 }
 cpusTable.next(); // { key: 1, value: 2 }
 cpusTable.next(); // { key: 2, value: 3 }
 
-availableServers.reset();
-availableServers.count(); // 2
-availableServers.next(); // { key: 1, value: { hostname: 's2.test.com', load: 30 } }
-availableServers.next(); // { key: 0, value: { hostname: 's1.test.com', load: 40 } }
+cpusTable.reset();
+
+cpusTable.next(); // { key: 0, value: 1 }
+cpusTable.next(); // { key: 1, value: 2 }
 ```
 
 ### clear

@@ -82,15 +82,11 @@ describe('SequentialRoundRobin tests', () => {
   describe('reset', () => {
     it('reset the table', () => {
       round.reset();
-      expect(round.count()).to.equal(2);
+      expect(round.count()).to.equal(3);
 
-      const next1 = round.next();
-      expect(next1.key).to.equal(0);
-      expect(next1.value).to.equal('item 1');
-
-      const next2 = round.next();
-      expect(next2.key).to.equal(1);
-      expect(next2.value).to.equal('item 2');
+      expect(round.next()).to.deep.equal({ key: 0, value: 'item 1' });
+      expect(round.next()).to.deep.equal({ key: 2, value: 'item 3' });
+      expect(round.next()).to.deep.equal({ key: 4, value: 'new item' });
     });
   });
 

@@ -152,17 +152,6 @@ class PriorityRoundRobin extends RoundRobin {
   }
 
   /**
-   * Resets the table
-   * @public
-   * @return {RoundRobin}
-   */
-  reset() {
-    super.reset();
-    this._init();
-    return this;
-  }
-
-  /**
    * Clears the table
    * @public
    * @return {RoundRobin}
