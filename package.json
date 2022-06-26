@@ -12,7 +12,10 @@
   },
   "keywords": [
     "round robin",
-    "round robin js"
+    "round robin js",
+    "sequential round robin",
+    "random round robin",
+    "priority round robin"
   ],
   "author": "Eyas Ranjous <eyas.ranjous@gmail.com>",
   "license": "MIT",
