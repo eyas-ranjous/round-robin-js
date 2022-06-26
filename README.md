@@ -5,15 +5,15 @@
 An implementation of the round robin as a data structure. The following strategies are implemented:
 <table>
   <tr>
-    <td>SequentialRoundRobin</td>
+    <td><b>SequentialRoundRobin</b></td>
     <td>selects next item based on the order of insertion</td>
   </tr>
   <tr>
-    <td>RandomRoundRobin</td>
+    <td><b>RandomRoundRobin</b></td>
     <td>selects the next item randomly</td>
   </tr>
   <tr>
-    <td>PriorityRoundRobin</td>
+    <td><b>PriorityRoundRobin</b></td>
     <td>selects the next item based on its priority</td>
   </tr>
 </table>
