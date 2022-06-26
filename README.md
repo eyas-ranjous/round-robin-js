@@ -2,11 +2,11 @@
 
 [![npm](https://img.shields.io/npm/v/round-robin-js.svg)](https://www.npmjs.com/package/round-robin-js) [![npm](https://img.shields.io/npm/dm/round-robin-js.svg)](https://www.npmjs.com/package/round-robin-js) [![npm](https://img.shields.io/badge/node-%3E=%206.0-blue.svg)](https://www.npmjs.com/package/round-robin-js)
 
-An implementation of the round robin as a data structure. The following strategies are implemented 
+An implementation of the round robin as a data structure. The following strategies are implemented:
 
 **SequentialRoundRobin**: selects next item based on the order of insertion.<br/>
-**RandomRoundRobin**: select next item randomly.<br/>
-**PriorityRoundRobin**: select next item based on its priority.<br/>
+**RandomRoundRobin**: select the next item randomly.<br/>
+**PriorityRoundRobin**: select the next item based on its priority.<br/>
 
 <img src="https://user-images.githubusercontent.com/6517308/121813242-859a9700-cc6b-11eb-99c0-49e5bb63005b.jpg">
 
@@ -15,13 +15,13 @@ An implementation of the round robin as a data structure. The following strategi
 * [API](#api)
   * [import](#import)
   * [constructor](#constructor)
-  * [add(value)](#addvalue)
-  * [count()](#count)
-  * [next()](#next)
-  * [deleteByKey(key)](#deletebykeykey)
-  * [deleteByValue(cb)](#deletebyvaluecb)
-  * [reset()](#reset)
-  * [clear()](#clear)
+  * [add](#add)
+  * [count](#count)
+  * [next](#next)
+  * [deleteByKey](#deletebykey)
+  * [deleteByValue](#deletebyvalue)
+  * [reset](#reset)
+  * [clear](#clear)
  * [Build](#build)
  * [License](#license)
 
@@ -38,106 +38,68 @@ npm install --save round-robin-js
 #### JS
 
 ```js
-const { SequentialRoundRobin, RandomRoundRobin } = require('round-robin-js');
-
-// OR
-
-import { SequentialRoundRobin, RandomRoundRobin } from 'round-robin-js';
+const {
+  SequentialRoundRobin,
+  RandomRoundRobin,
+  PriorityRoundRobin
+} = require('round-robin-js');
 ```
 
 #### TS
-
 ```js
 import {
   SequentialRoundRobin,
   RandomRoundRobin,
+  PriorityRoundRobin,
   RoundRobinItem // the internal item type
 } from 'round-robin-js';
 ```
 
 ### constructor
-accepts an initial list of values.
+All types accept an initial list of values. PriorityRoundRobin requires a compare function to select next item based on priority.
 
 #### JS
 
-<table>
-  <tr>
-    <th align="center">params</th>
-  </tr>
-  <tr>
-    <td align="center">values: array</td>
-  </tr>
-</table>
-
 ```js
-const sequentialTable = new SequentialRoundRobin(['T1', 'T2', 'T3']);
+const cpusTable = new SequentialRoundRobin([1, 2, 3]);
 
-const randomTable = new RandomRoundRobin([5, 10, 15]);
+const rockPaperScissors = new RandomRoundRobin(['Rock', 'Paper', 'Scissors']);
+
+const availableServers = new PriorityRoundRobin(
+  (a, b) => a.load - b.load
+  [{ hostname: 's1.test.com', load: 40 }, { hostname: 's1.test.com', load: 30 }]
+);
 ```
 
 #### TS
 
-<table>
-  <tr>
-    <th align="center">params</th>
-  </tr>
-  <tr>
-    <td align="center">values: T[]</td>
-  </tr>
-</table>
-
 ```js
-const sequentialTable = new SequentialRoundRobin<string>(['T1', 'T2', 'T3']);
+const cpusTable = new SequentialRoundRobin<number>([1, 2, 3]);
 
-const randomTable = new RandomRoundRobin<number>([5, 10, 15]);
+const rockPaperScissors = new RandomRoundRobin<string>(['Rock', 'Paper', 'Scissors']);
+
+interface IServer {
+  hostname: string;
+  load: number;
+}
+const availableServers = new PriorityRoundRobin<IServer>(
+  (a: IServer, b: IServer) => a.load - b.load
+  [{ hostname: 's1.test.com', load: 40 }, { hostname: 's2.test.com', load: 30 }]
+);
 ```
 
 ### add(value)
 adds a new item to the table.
 
-#### JS
-
-<table>
-  <tr>
-    <th align="center">params</th>
-    <th align="center">return</th>
-  </tr>
-  <tr>
-    <td align="center">value: any</td>
-    <td align="center">object</td>
-  </tr>
-</table>
-
 ```js
-const { key, value } = sequentialTable.add('T4');
-console.log(key, value); // 3, T4
+cpusTable.add(4); // { key: 3, value: 4 }
+cpusTable.add(5); // { key: 4, value: 5 }
 
-const { key, value } = randomTable.add(25);
-console.log(key, value); // 3, 25
+availableServers.add({ hostname: 's3.test.com', load: 15 }); // { key: 2, value: { hostname: 's3.test.com', load: 15 } }
+availableServers.add({ hostname: 's4.test.com', load: 60 }); // { key: 3, value: { hostname: 's4.test.com', load: 60 } }
 ```
 
-#### TS
-
-<table>
-  <tr>
-    <th align="center">params</th>
-    <th align="center">return</th>
-  </tr>
-  <tr>
-    <td align="center">value: T</td>
-    <td align="center">RoundRobinItem&lt;T&gt;</td>
-  </tr>
-</table>
-
-```js
-const item: RoundRobinItem = sequentialTable.add('T4');
-console.log(item); // { key: 3, value: 'T4' }
-
-const item: RoundRobinItem = randomTable.add(25);
-console.log(item); // { key: 3, value: 25 }
-```
-
-### count()
+### count
 returns the current number of items on the table.
 
 <table>
@@ -155,17 +117,8 @@ console.log(sequentialTable.count()); // 4
 console.log(randomTable.count()); // 4
 ```
 
-### next()
+### next
 returns the next item in the round.
-
-<table>
-  <tr>
-    <th align="center">return</th>
-  </tr>
-  <tr>
-    <td align="center">object (RoundRobinItem&lt;T&gt;)</td>
-  </tr>
-</table>
 
 ```js
 // first round
@@ -185,7 +138,7 @@ console.log(randomTable.next()); // { key: 3, value: 25 }
 console.log(randomTable.next()); // { key: 1, value: 10 }
 ```
 
-### deleteByKey(key)
+### deleteByKey
 deletes an item by its key from the table.
 
 <table>
@@ -211,7 +164,7 @@ console.log(randomTable.next()); // { key: 1, value: 10 }
 console.log(randomTable.next()); // { key: 3, value: 25 }
 ```
 
-### deleteByValue(cb)
+### deleteByValue
 deletes items with values that match a criteria from the table and returns the number of deleted items.
 
 <table>
@@ -243,7 +196,7 @@ console.log(ranTable.next(), ranTable.next())
 // { key: 2, value: { id: '456' } } { key: 0, value: { id: '123' } }
 ```
 
-### reset()
+### reset
 resets the table with the intial values.
 
 ```js
@@ -254,7 +207,7 @@ randomTable.reset();
 console.log(randomTable.count()); // 3
 ```
 
-### clear()
+### clear
 clears all values in the table.
 
 ```js
