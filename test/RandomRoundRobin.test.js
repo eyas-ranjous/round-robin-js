@@ -54,14 +54,14 @@ describe('RandomRoundRobin tests', () => {
   });
 
   describe('reset', () => {
-    it('reset the round', () => {
+    it('reset the table', () => {
       round.reset();
       expect(round.count()).to.equal(2);
     });
   });
 
   describe('clear', () => {
-    it('clears the round', () => {
+    it('clears the table', () => {
       round.clear();
       expect(round.count()).to.equal(0);
       expect(round.next()).to.equal(null);
