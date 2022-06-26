@@ -77,7 +77,7 @@ const cpusTable = new SequentialRoundRobin([1, 2, 3]);
 const rockPaperScissors = new RandomRoundRobin(['Rock', 'Paper', 'Scissors']);
 
 const availableServers = new PriorityRoundRobin(
-  (a, b) => a.load - b.load
+  (a, b) => a.load - b.load, // select next available server with lowest load
   [{ hostname: 's1.test.com', load: 40 }, { hostname: 's1.test.com', load: 30 }]
 );
 ```
@@ -94,7 +94,7 @@ interface IServer {
   load: number;
 }
 const availableServers = new PriorityRoundRobin<IServer>(
-  (a: IServer, b: IServer) => a.load - b.load
+  (a: IServer, b: IServer) => a.load - b.load, // select next available server with lowest load
   [{ hostname: 's1.test.com', load: 40 }, { hostname: 's2.test.com', load: 30 }]
 );
 ```
@@ -111,95 +111,64 @@ availableServers.add({ hostname: 's4.test.com', load: 60 }); // { key: 3, value:
 ```
 
 ### next
-returns the next item in the round.
+selects and returns the next item in the round.
 
 ```js
 // first round
-console.log(sequentialTable.next()); // { key: 0, value: 'T1' }
-console.log(sequentialTable.next()); // { key: 1, value: 'T2' }
-console.log(sequentialTable.next()); // { key: 2, value: 'T3' }
-console.log(sequentialTable.next()); // { key: 3, value: 'T4' }
+cpusTable.next(); // { key: 0, value: 1 }
+cpusTable.next(); // { key: 1, value: 2 }
+cpusTable.next(); // { key: 2, value: 3 }
+cpusTable.next(); // { key: 3, value: 4 }
+cpusTable.next(); // { key: 4, value: 5 }
 // second round ...
-console.log(sequentialTable.next()); // { key: 0, value: 'T1' }
+cpusTable.next(); // { key: 0, value: 1 }
 
 // first round
-console.log(randomTable.next()); // { key: 2, value: 15 }
-console.log(randomTable.next()); // { key: 1, value: 10 }
-console.log(randomTable.next()); // { key: 0, value: 5 }
-console.log(randomTable.next()); // { key: 3, value: 25 }
+rockPaperScissors.next(); // { key: 1, value: 'Paper' }
+rockPaperScissors.next(); // { key: 0, value: 'Rock' }
+rockPaperScissors.next(); // { key: 2, value: 'Scissors' }
 // second round ...
-console.log(randomTable.next()); // { key: 1, value: 10 }
+rockPaperScissors.next(); // { key: 1, value: 'Paper' }
+
+availableServers.next(); // { key: 2, value: { hostname: 's3.test.com', load: 15 } }
+availableServers.next(); // { key: 1, value: { hostname: 's1.test.com', load: 30 } }
+availableServers.next(); // { key: 0, value: { hostname: 's1.test.com', load: 40 } }
+availableServers.next(); // { key: 3, value: { hostname: 's4.test.com', load: 60 } }
+// second round ...
+availableServers.next(); // { key: 2, value: { hostname: 's3.test.com', load: 15 } }
 ```
 
 ### count
 returns the number of items in the table.
 
 ```js
-console.log(cpusTable.count()); // 5
-console.log(rockPaperScissors.count()); // 4
-console.log(availableServers.count()); // 4
+cpusTable.count(); // 5
+rockPaperScissors.count(); // 3
+availableServers.count(); // 4
 ```
 
 ### deleteByKey
-deletes an item by its key from the table.
-
-<table>
-  <tr>
-    <th align="center">return</th>
-  </tr>
-  <tr>
-    <td align="center">boolean</td>
-  </tr>
-</table>
+deletes an item from the table by its key.
 
 ```js
-sequentialTable.deleteByKey(0);
-sequentialTable.deleteByKey(2);
-console.log(sequentialTable.next()); // { key: 1, value: 'T2' }
-console.log(sequentialTable.next()); // { key: 3, value: 'T4' }
-console.log(sequentialTable.next()); // { key: 1, value: 'T2' }
+cpusTable.deleteByKey(1); // 2 is deleted
+cpusTable.count(); // 4
 
-randomTable.deleteByKey(0);
-randomTable.deleteByKey(2);
-console.log(randomTable.next()); // { key: 3, value: 25 }
-console.log(randomTable.next()); // { key: 1, value: 10 }
-console.log(randomTable.next()); // { key: 3, value: 25 }
+availableServers.deleteByKey(2); // true / { hostname: 's3.test.com', load: 15 } is deleted
+availableServers.count(); // 3
 ```
 
 ### deleteByValue
-deletes items with values that match a criteria from the table and returns the number of deleted items.
-
-<table>
-  <tr>
-    <th align="center">params</th>
-    <th align="center">return</th>
-  </tr>
-  <tr>
-    <td align="center">cb: (value: T) => boolean</td>
-    <td align="center">number</td>
-  </tr>
-</table>
+accepts a callback to delete items that match a criteria from the table and returns the count of deleted.
 
 ```js
-const seqTable = new SequentialRoundRobin<number>([2, 3, 5, 6, 7, 10]);
-const ranTable = new RandomRoundRobin<{ id: string }>([
-  { id: '123' },
-  { id: 'id456' },
-  { id: '456' },
-  { id: 'id780' }
-]);
-
-const d1 = seqTable.deleteByValue((n) => n % 2 === 1); // 3
-console.log(seqTable.next(), seqTable.next(), seqTable.next())
-// { key: 0, value: 2 } { key: 3, value: 6 } { key: 5, value: 10 }
-
-const d2 = ranTable.deleteByValue((obj) => obj.id.indexOf('id') === 0); // 2
-console.log(ranTable.next(), ranTable.next())
-// { key: 2, value: { id: '456' } } { key: 0, value: { id: '123' } }
+availableServers.deleteByValue((s) => s.load > 30); // 2 deleted
+availableServers.next(); // { key: 1, value: { hostname: 's1.test.com', load: 30 } }
+availableServers.next(); // { key: 1, value: { hostname: 's1.test.com', load: 30 } }
 ```
 
 ### reset
-resets the table with the intial values.
+resets the table with the intial values that were provided in constructor.
 
 ```js
 sequentialTable.reset();
