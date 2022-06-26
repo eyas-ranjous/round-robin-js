@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0] - 2022-jun-25
+### Changed
+- Added PriorityRoundRobin.
+- fixing little things and the readme.
+
 ## [2.0.1] - 2022-feb-11
 ### Fixed
 - readme
