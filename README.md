@@ -6,7 +6,7 @@ An implementation of the round robin as a data structure. The following strategi
 <table>
   <tr>
     <td><b>SequentialRoundRobin</b></td>
-    <td>selects next item based on the order of insertion</td>
+    <td>selects the next item based on the order of insertion</td>
   </tr>
   <tr>
     <td><b>RandomRoundRobin</b></td>
