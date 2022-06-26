@@ -3,10 +3,20 @@
 [![npm](https://img.shields.io/npm/v/round-robin-js.svg)](https://www.npmjs.com/package/round-robin-js) [![npm](https://img.shields.io/npm/dm/round-robin-js.svg)](https://www.npmjs.com/package/round-robin-js) [![npm](https://img.shields.io/badge/node-%3E=%206.0-blue.svg)](https://www.npmjs.com/package/round-robin-js)
 
 An implementation of the round robin as a data structure. The following strategies are implemented:
-
-**SequentialRoundRobin**: selects next item based on the order of insertion.<br/>
-**RandomRoundRobin**: select the next item randomly.<br/>
-**PriorityRoundRobin**: select the next item based on its priority.<br/>
+<table>
+  <tr>
+    <td>SequentialRoundRobin</td>
+    <td>selects next item based on the order of insertion</td>
+  </tr>
+  <tr>
+    <td>RandomRoundRobin</td>
+    <td>selects the next item randomly</td>
+  </tr>
+  <tr>
+    <td>PriorityRoundRobin</td>
+    <td>selects the next item based on its priority</td>
+  </tr>
+</table>
 
 <img src="https://user-images.githubusercontent.com/6517308/121813242-859a9700-cc6b-11eb-99c0-49e5bb63005b.jpg">
 
@@ -103,9 +113,9 @@ availableServers.add({ hostname: 's4.test.com', load: 60 }); // { key: 3, value:
 returns the number of items in the table.
 
 ```js
-console.log(sequentialTable.count()); // 4
-
-console.log(randomTable.count()); // 4
+console.log(cpusTable.count()); // 5
+console.log(rockPaperScissors.count()); // 4
+console.log(availableServers.count()); // 4
 ```
 
 ### next
