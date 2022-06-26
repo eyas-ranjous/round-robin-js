@@ -23,8 +23,9 @@ An implementation of the round robin as a data structure. The following strategi
 
 # Contents
 * [Install](#install)
+* [require](#import)
+* [import](#import)
 * [API](#api)
-  * [import](#import)
   * [constructor](#constructor)
   * [add](#add)
   * [next](#next)
@@ -42,12 +43,7 @@ An implementation of the round robin as a data structure. The following strategi
 npm install --save round-robin-js
 ```
 
-## API
-
-### import
-
-#### JS
-
+## require
 ```js
 const {
   SequentialRoundRobin,
@@ -56,7 +52,7 @@ const {
 } = require('round-robin-js');
 ```
 
-#### TS
+## import
 ```js
 import {
   SequentialRoundRobin,
@@ -65,6 +61,8 @@ import {
   RoundRobinItem // the internal item type
 } from 'round-robin-js';
 ```
+
+## API
 
 ### constructor
 All types accept an initial list of values. PriorityRoundRobin requires a compare function to select next item based on priority.
