@@ -113,7 +113,7 @@ class SequentialRoundRobin extends RoundRobin {
    * @return {RoundRobin}
    */
   reset() {
-    super.clear();
+    super.reset();
     this._init();
     return this;
   }

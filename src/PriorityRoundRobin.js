@@ -157,7 +157,7 @@ class PriorityRoundRobin extends RoundRobin {
    * @return {RoundRobin}
    */
   reset() {
-    super.clear();
+    super.reset();
     this._init();
     return this;
   }
@@ -169,6 +169,7 @@ class PriorityRoundRobin extends RoundRobin {
    */
   clear() {
     this._items = this._createQueue();
+    this._round = this._createQueue();
     return super.clear();
   }
 }

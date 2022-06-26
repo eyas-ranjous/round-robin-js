@@ -78,7 +78,7 @@ const rockPaperScissors = new RandomRoundRobin(['Rock', 'Paper', 'Scissors']);
 
 const availableServers = new PriorityRoundRobin(
   (a, b) => a.load - b.load, // select next available server with lowest load
-  [{ hostname: 's1.test.com', load: 40 }, { hostname: 's1.test.com', load: 30 }]
+  [{ hostname: 's1.test.com', load: 40 }, { hostname: 's2.test.com', load: 30 }]
 );
 ```
 
@@ -162,7 +162,7 @@ availableServers.count(); // 3
 accepts a callback to delete items that match a criteria from the table and returns the count of deleted.
 
 ```js
-availableServers.deleteByValue((s) => s.load > 30); // 2 deleted
+availableServers.deleteByValue((s) => s.load > 30); // 2
 availableServers.next(); // { key: 1, value: { hostname: 's1.test.com', load: 30 } }
 availableServers.next(); // { key: 1, value: { hostname: 's1.test.com', load: 30 } }
 ```
@@ -171,22 +171,33 @@ availableServers.next(); // { key: 1, value: { hostname: 's1.test.com', load: 30
 resets the table with the intial values that were provided in constructor.
 
 ```js
-sequentialTable.reset();
-console.log(sequentialTable.count()); // 3
+cpusTable.reset();
+cpusTable.count(); // 3
+cpusTable.next(); // { key: 0, value: 1 }
+cpusTable.next(); // { key: 1, value: 2 }
+cpusTable.next(); // { key: 2, value: 3 }
 
-randomTable.reset();
-console.log(randomTable.count()); // 3
+availableServers.reset();
+availableServers.count(); // 2
+availableServers.next(); // { key: 1, value: { hostname: 's2.test.com', load: 30 } }
+availableServers.next(); // { key: 0, value: { hostname: 's1.test.com', load: 40 } }
 ```
 
 ### clear
 clears all values in the table.
 
 ```js
-sequentialTable.clear();
-console.log(sequentialTable.count()); // 0
+cpusTable.clear();
+cpusTable.count(); // 0
+cpusTable.next(); // null
 
-randomTable.clear();
-console.log(randomTable.count()); // 0
+rockPaperScissors.clear();
+rockPaperScissors.count(); // 0
+rockPaperScissors.next(); // null
+
+availableServers.clear();
+availableServers.count(); // 0
+availableServers.next(); // null
 ```
 
 ## Build
