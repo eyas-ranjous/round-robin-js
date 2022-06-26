@@ -88,7 +88,7 @@ const availableServers = new PriorityRoundRobin<IServer>(
 );
 ```
 
-### add(value)
+### add
 adds a new item to the table.
 
 ```js
