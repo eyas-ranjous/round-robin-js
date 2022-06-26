@@ -27,8 +27,8 @@ An implementation of the round robin as a data structure. The following strategi
   * [import](#import)
   * [constructor](#constructor)
   * [add](#add)
-  * [count](#count)
   * [next](#next)
+  * [count](#count)
   * [deleteByKey](#deletebykey)
   * [deleteByValue](#deletebyvalue)
   * [reset](#reset)
@@ -110,15 +110,6 @@ availableServers.add({ hostname: 's3.test.com', load: 15 }); // { key: 2, value:
 availableServers.add({ hostname: 's4.test.com', load: 60 }); // { key: 3, value: { hostname: 's4.test.com', load: 60 } }
 ```
 
-### count
-returns the number of items in the table.
-
-```js
-console.log(cpusTable.count()); // 5
-console.log(rockPaperScissors.count()); // 4
-console.log(availableServers.count()); // 4
-```
-
 ### next
 returns the next item in the round.
 
@@ -138,6 +129,15 @@ console.log(randomTable.next()); // { key: 0, value: 5 }
 console.log(randomTable.next()); // { key: 3, value: 25 }
 // second round ...
 console.log(randomTable.next()); // { key: 1, value: 10 }
+```
+
+### count
+returns the number of items in the table.
+
+```js
+console.log(cpusTable.count()); // 5
+console.log(rockPaperScissors.count()); // 4
+console.log(availableServers.count()); // 4
 ```
 
 ### deleteByKey
