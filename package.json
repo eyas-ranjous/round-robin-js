@@ -1,6 +1,6 @@
 {
   "name": "round-robin-js",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "an implementation of round robin as a data structure",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,11 @@
     "url": "git+https://github.com/eyas-ranjous/round-robin-js.git"
   },
   "keywords": [
-    "round robin"
+    "round robin",
+    "round robin js",
+    "sequential round robin",
+    "random round robin",
+    "priority round robin"
   ],
   "author": "Eyas Ranjous <eyas.ranjous@gmail.com>",
   "license": "MIT",
@@ -20,7 +24,8 @@
   },
   "homepage": "https://github.com/eyas-ranjous/round-robin-js#readme",
   "dependencies": {
-    "@datastructures-js/linked-list": "^5.1.1"
+    "@datastructures-js/linked-list": "^5.2.2",
+    "@datastructures-js/priority-queue": "^6.1.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",

@@ -32,8 +32,8 @@ class SequentialRoundRobin extends RoundRobin {
   /**
    * Adds a new item to the table
    * @public
-   * @param {any} value
-   * @return {any}
+   * @param {number|string|object} value
+   * @return {object}
    */
   add(value) {
     this._itemNodes.set(
@@ -100,7 +100,7 @@ class SequentialRoundRobin extends RoundRobin {
   }
 
   /**
-   * Returns number of items on the table
+   * Returns number of items
    * @return {number}
    */
   count() {
@@ -113,7 +113,7 @@ class SequentialRoundRobin extends RoundRobin {
    * @return {RoundRobin}
    */
   reset() {
-    super.clear();
+    super.reset();
     this._init();
     return this;
   }

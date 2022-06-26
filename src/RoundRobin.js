@@ -25,6 +25,17 @@ class RoundRobin {
   }
 
   /**
+   * Resets the table
+   * @public
+   * @return {RoundRobin}
+   */
+  reset() {
+    this._currentkey = 0;
+    this._currentTurn = null;
+    return this;
+  }
+
+  /**
    * Clears the table
    * @public
    * @return {RoundRobin}
@@ -32,6 +43,7 @@ class RoundRobin {
   clear() {
     this._currentkey = 0;
     this._currentTurn = null;
+    this._initialValues = [];
     return this;
   }
 }

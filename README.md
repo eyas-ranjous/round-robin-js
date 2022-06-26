@@ -1,23 +1,39 @@
 # round-robin-js
 
-[![build:?](https://travis-ci.org/eyas-ranjous/round-robin-js.svg?branch=main)](https://travis-ci.org/eyas-ranjous/round-robin-js) [![npm](https://img.shields.io/npm/v/round-robin-js.svg)](https://www.npmjs.com/package/round-robin-js) [![npm](https://img.shields.io/npm/dm/round-robin-js.svg)](https://www.npmjs.com/package/round-robin-js) [![npm](https://img.shields.io/badge/node-%3E=%206.0-blue.svg)](https://www.npmjs.com/package/round-robin-js)
+[![npm](https://img.shields.io/npm/v/round-robin-js.svg)](https://www.npmjs.com/package/round-robin-js) [![npm](https://img.shields.io/npm/dm/round-robin-js.svg)](https://www.npmjs.com/package/round-robin-js) [![npm](https://img.shields.io/badge/node-%3E=%206.0-blue.svg)](https://www.npmjs.com/package/round-robin-js)
 
-An implementation of the round robin as a data structure. Two strategies are implemented to select the next item in the round, a Sequential one that selects the next item based on the order of insertion, and a Random one that selects the next item randomly.
+An implementation of the round robin as a data structure. The following strategies are implemented:
+<table>
+  <tr>
+    <td><b>SequentialRoundRobin</b></td>
+    <td>selects the next item based on the order of insertion</td>
+  </tr>
+  <tr>
+    <td><b>RandomRoundRobin</b></td>
+    <td>selects the next item randomly</td>
+  </tr>
+  <tr>
+    <td><b>PriorityRoundRobin</b></td>
+    <td>selects the next item based on its priority</td>
+  </tr>
+</table>
+<br/>
 
 <img src="https://user-images.githubusercontent.com/6517308/121813242-859a9700-cc6b-11eb-99c0-49e5bb63005b.jpg">
 
 # Contents
 * [Install](#install)
+* [require](#import)
+* [import](#import)
 * [API](#api)
-  * [import](#import)
   * [constructor](#constructor)
-  * [add(value)](#addvalue)
-  * [count()](#count)
-  * [next()](#next)
-  * [deleteByKey(key)](#deletebykeykey)
-  * [deleteByValue(cb)](#deletebyvaluecb)
-  * [reset()](#reset)
-  * [clear()](#clear)
+  * [add](#add)
+  * [next](#next)
+  * [count](#count)
+  * [deleteByKey](#deletebykey)
+  * [deleteByValue](#deletebyvalue)
+  * [reset](#reset)
+  * [clear](#clear)
  * [Build](#build)
  * [License](#license)
 
@@ -27,238 +43,159 @@ An implementation of the round robin as a data structure. Two strategies are imp
 npm install --save round-robin-js
 ```
 
-## API
-
-### import
-
-#### JS
-
+## require
 ```js
-const { SequentialRoundRobin, RandomRoundRobin } = require('round-robin-js');
-
-// OR
-
-import { SequentialRoundRobin, RandomRoundRobin } from 'round-robin-js';
+const {
+  SequentialRoundRobin,
+  RandomRoundRobin,
+  PriorityRoundRobin
+} = require('round-robin-js');
 ```
 
-#### TS
-
+## import
 ```js
 import {
   SequentialRoundRobin,
   RandomRoundRobin,
+  PriorityRoundRobin,
   RoundRobinItem // the internal item type
 } from 'round-robin-js';
 ```
 
+## API
+
 ### constructor
-accepts an initial list of values.
+All types accept an initial list of values. PriorityRoundRobin requires a compare function to select next item based on priority.
 
 #### JS
 
-<table>
-  <tr>
-    <th align="center">params</th>
-  </tr>
-  <tr>
-    <td align="center">values: array</td>
-  </tr>
-</table>
-
 ```js
-const sequentialTable = new SequentialRoundRobin(['T1', 'T2', 'T3']);
+const cpusTable = new SequentialRoundRobin([1, 2, 3]);
 
-const randomTable = new RandomRoundRobin([5, 10, 15]);
+const rockPaperScissors = new RandomRoundRobin(['Rock', 'Paper', 'Scissors']);
+
+const availableServers = new PriorityRoundRobin(
+  (a, b) => a.load - b.load, // select next available server with lowest load
+  [{ hostname: 's1.test.com', load: 40 }, { hostname: 's2.test.com', load: 30 }]
+);
 ```
 
 #### TS
 
-<table>
-  <tr>
-    <th align="center">params</th>
-  </tr>
-  <tr>
-    <td align="center">values: T[]</td>
-  </tr>
-</table>
-
 ```js
-const sequentialTable = new SequentialRoundRobin<string>(['T1', 'T2', 'T3']);
+const cpusTable = new SequentialRoundRobin<number>([1, 2, 3]);
 
-const randomTable = new RandomRoundRobin<number>([5, 10, 15]);
+const rockPaperScissors = new RandomRoundRobin<string>(['Rock', 'Paper', 'Scissors']);
+
+interface IServer {
+  hostname: string;
+  load: number;
+}
+const availableServers = new PriorityRoundRobin<IServer>(
+  (a: IServer, b: IServer) => a.load - b.load, // select next available server with lowest load
+  [{ hostname: 's1.test.com', load: 40 }, { hostname: 's2.test.com', load: 30 }]
+);
 ```
 
-### add(value)
+### add
 adds a new item to the table.
 
-#### JS
-
-<table>
-  <tr>
-    <th align="center">params</th>
-    <th align="center">return</th>
-  </tr>
-  <tr>
-    <td align="center">value: any</td>
-    <td align="center">object</td>
-  </tr>
-</table>
-
 ```js
-const { key, value } = sequentialTable.add('T4');
-console.log(key, value); // 3, T4
+cpusTable.add(4); // { key: 3, value: 4 }
+cpusTable.add(5); // { key: 4, value: 5 }
 
-const { key, value } = randomTable.add(25);
-console.log(key, value); // 3, 25
+availableServers.add({ hostname: 's3.test.com', load: 15 }); // { key: 2, value: { hostname: 's3.test.com', load: 15 } }
+availableServers.add({ hostname: 's4.test.com', load: 60 }); // { key: 3, value: { hostname: 's4.test.com', load: 60 } }
 ```
 
-#### TS
-
-<table>
-  <tr>
-    <th align="center">params</th>
-    <th align="center">return</th>
-  </tr>
-  <tr>
-    <td align="center">value: T</td>
-    <td align="center">RoundRobinItem&lt;T&gt;</td>
-  </tr>
-</table>
+### next
+selects and returns the next item in the round.
 
 ```js
-const item: RoundRobinItem = sequentialTable.add('T4');
-console.log(item); // { key: 3, value: 'T4' }
+// first round
+cpusTable.next(); // { key: 0, value: 1 }
+cpusTable.next(); // { key: 1, value: 2 }
+cpusTable.next(); // { key: 2, value: 3 }
+cpusTable.next(); // { key: 3, value: 4 }
+cpusTable.next(); // { key: 4, value: 5 }
+// second round ...
+cpusTable.next(); // { key: 0, value: 1 }
 
-const item: RoundRobinItem = randomTable.add(25);
-console.log(item); // { key: 3, value: 25 }
+// first round
+rockPaperScissors.next(); // { key: 1, value: 'Paper' }
+rockPaperScissors.next(); // { key: 0, value: 'Rock' }
+rockPaperScissors.next(); // { key: 2, value: 'Scissors' }
+// second round ...
+rockPaperScissors.next(); // { key: 1, value: 'Paper' }
+
+availableServers.next(); // { key: 2, value: { hostname: 's3.test.com', load: 15 } }
+availableServers.next(); // { key: 1, value: { hostname: 's1.test.com', load: 30 } }
+availableServers.next(); // { key: 0, value: { hostname: 's1.test.com', load: 40 } }
+availableServers.next(); // { key: 3, value: { hostname: 's4.test.com', load: 60 } }
+// second round ...
+availableServers.next(); // { key: 2, value: { hostname: 's3.test.com', load: 15 } }
 ```
 
-### count()
+### count
 returns the number of items in the table.
 
-<table>
-  <tr>
-    <th align="center">return</th>
-  </tr>
-  <tr>
-    <td align="center">number</td>
-  </tr>
-</table>
-
 ```js
-console.log(sequentialTable.count()); // 4
-
-console.log(randomTable.count()); // 4
+cpusTable.count(); // 5
+rockPaperScissors.count(); // 3
+availableServers.count(); // 4
 ```
 
-### next()
-returns the next item in the round.
-
-<table>
-  <tr>
-    <th align="center">return</th>
-  </tr>
-  <tr>
-    <td align="center">object (RoundRobinItem&lt;T&gt;)</td>
-  </tr>
-</table>
+### deleteByKey
+deletes an item from the table by its key.
 
 ```js
-// first round
-console.log(sequentialTable.next()); // { key: 0, value: 'T1' }
-console.log(sequentialTable.next()); // { key: 1, value: 'T2' }
-console.log(sequentialTable.next()); // { key: 2, value: 'T3' }
-console.log(sequentialTable.next()); // { key: 3, value: 'T4' }
-// second round ...
-console.log(sequentialTable.next()); // { key: 0, value: 'T1' }
+cpusTable.deleteByKey(1); // 2 is deleted
+cpusTable.count(); // 4
 
-// first round
-console.log(randomTable.next()); // { key: 2, value: 15 }
-console.log(randomTable.next()); // { key: 1, value: 10 }
-console.log(randomTable.next()); // { key: 0, value: 5 }
-console.log(randomTable.next()); // { key: 3, value: 25 }
-// second round ...
-console.log(randomTable.next()); // { key: 1, value: 10 }
+availableServers.deleteByKey(2); // true / { hostname: 's3.test.com', load: 15 } is deleted
+availableServers.count(); // 3
 ```
 
-### deleteByKey(key)
-deletes an item by its key from the table.
-
-<table>
-  <tr>
-    <th align="center">return</th>
-  </tr>
-  <tr>
-    <td align="center">boolean</td>
-  </tr>
-</table>
+### deleteByValue
+accepts a callback to delete items that match a criteria from the table and returns the count of deleted.
 
 ```js
-sequentialTable.deleteByKey(0);
-sequentialTable.deleteByKey(2);
-console.log(sequentialTable.next()); // { key: 1, value: 'T2' }
-console.log(sequentialTable.next()); // { key: 3, value: 'T4' }
-console.log(sequentialTable.next()); // { key: 1, value: 'T2' }
-
-randomTable.deleteByKey(0);
-randomTable.deleteByKey(2);
-console.log(randomTable.next()); // { key: 3, value: 25 }
-console.log(randomTable.next()); // { key: 1, value: 10 }
-console.log(randomTable.next()); // { key: 3, value: 25 }
+availableServers.deleteByValue((s) => s.load > 30); // 2
+availableServers.next(); // { key: 1, value: { hostname: 's1.test.com', load: 30 } }
+availableServers.next(); // { key: 1, value: { hostname: 's1.test.com', load: 30 } }
 ```
 
-### deleteByValue(cb)
-deletes items with values that match a criteria from the table and returns the number of deleted items.
-
-<table>
-  <tr>
-    <th align="center">params</th>
-    <th align="center">return</th>
-  </tr>
-  <tr>
-    <td align="center">cb: (value: T) => boolean</td>
-    <td align="center">number</td>
-  </tr>
-</table>
+### reset
+resets the table with the intial values that were provided in constructor.
 
 ```js
-const seqTable = new SequentialRoundRobin<number>([2, 3, 5, 6, 7, 10]);
-const ranTable = new RandomRoundRobin<{ id: string }>([
-  { id: '123' },
-  { id: 'id456' },
-  { id: '456' },
-  { id: 'id780' }
-]);
+cpusTable.reset();
+cpusTable.count(); // 3
+cpusTable.next(); // { key: 0, value: 1 }
+cpusTable.next(); // { key: 1, value: 2 }
+cpusTable.next(); // { key: 2, value: 3 }
 
-const d1 = seqTable.deleteByValue((n) => n % 2 === 1); // 3
-console.log(seqTable.next(), seqTable.next(), seqTable.next())
-// { key: 0, value: 2 } { key: 3, value: 6 } { key: 5, value: 10 }
-
-const d2 = ranTable.deleteByValue((obj) => obj.id.indexOf('id') === 0); // 2
-console.log(ranTable.next(), ranTable.next())
-// { key: 2, value: { id: '456' } } { key: 0, value: { id: '123' } }
+availableServers.reset();
+availableServers.count(); // 2
+availableServers.next(); // { key: 1, value: { hostname: 's2.test.com', load: 30 } }
+availableServers.next(); // { key: 0, value: { hostname: 's1.test.com', load: 40 } }
 ```
 
-### reset()
-resets the table with the intial values.
-
-```js
-sequentialTable.reset();
-console.log(sequentialTable.count()); // 3
-
-randomTable.reset();
-console.log(randomTable.count()); // 3
-```
-
-### clear()
+### clear
 clears all values in the table.
 
 ```js
-sequentialTable.clear();
-console.log(sequentialTable.count()); // 0
+cpusTable.clear();
+cpusTable.count(); // 0
+cpusTable.next(); // null
 
-randomTable.clear();
-console.log(randomTable.count()); // 0
+rockPaperScissors.clear();
+rockPaperScissors.count(); // 0
+rockPaperScissors.next(); // null
+
+availableServers.clear();
+availableServers.count(); // 0
+availableServers.next(); // null
 ```
 
 ## Build
