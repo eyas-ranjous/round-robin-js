@@ -100,16 +100,7 @@ availableServers.add({ hostname: 's4.test.com', load: 60 }); // { key: 3, value:
 ```
 
 ### count
-returns the current number of items on the table.
-
-<table>
-  <tr>
-    <th align="center">return</th>
-  </tr>
-  <tr>
-    <td align="center">number</td>
-  </tr>
-</table>
+returns the number of items in the table.
 
 ```js
 console.log(sequentialTable.count()); // 4
