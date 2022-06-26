@@ -80,7 +80,8 @@ describe('PriorityRoundRobin tests', () => {
   describe('reset', () => {
     it('reset the table', () => {
       round.reset();
-      expect(round.count()).to.equal(0);
+      expect(round.count()).to.equal(3);
+      expect(round.next()).to.deep.equal({ key: 2, value: -1 });
     });
   });
 
