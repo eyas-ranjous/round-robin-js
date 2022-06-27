@@ -126,10 +126,10 @@ rockPaperScissors.next(); // { key: 1, value: 'Paper' }
 rockPaperScissors.next(); // { key: 0, value: 'Rock' }
 rockPaperScissors.next(); // { key: 2, value: 'Scissors' }
 // second round ...
-rockPaperScissors.next(); // { key: 1, value: 'Paper' }
+rockPaperScissors.next(); // { key: 0, value: 'Rock' }
 
 availableServers.next(); // { key: 2, value: { hostname: 's3.test.com', load: 15 } }
-availableServers.next(); // { key: 1, value: { hostname: 's1.test.com', load: 30 } }
+availableServers.next(); // { key: 1, value: { hostname: 's2.test.com', load: 30 } }
 availableServers.next(); // { key: 0, value: { hostname: 's1.test.com', load: 40 } }
 availableServers.next(); // { key: 3, value: { hostname: 's4.test.com', load: 60 } }
 // second round ...
@@ -161,8 +161,8 @@ accepts a callback to delete items that match a criteria from the table and retu
 
 ```js
 availableServers.deleteByValue((s) => s.load > 30); // 2
-availableServers.next(); // { key: 1, value: { hostname: 's1.test.com', load: 30 } }
-availableServers.next(); // { key: 1, value: { hostname: 's1.test.com', load: 30 } }
+availableServers.next(); // { key: 1, value: { hostname: 's2.test.com', load: 30 } }
+availableServers.next(); // { key: 1, value: { hostname: 's2.test.com', load: 30 } }
 ```
 
 ### reset
