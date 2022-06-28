@@ -132,7 +132,6 @@ class RandomRoundRobin extends RoundRobin {
    */
   clear() {
     this._items = new Map();
-    this._keys = new Set();
     this._round = new Set();
     return super.clear();
   }
