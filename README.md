@@ -1,208 +1,213 @@
-# round-robin-js
+
+# **round-robin-js**
 
 [![npm](https://img.shields.io/npm/v/round-robin-js.svg)](https://www.npmjs.com/package/round-robin-js) [![npm](https://img.shields.io/npm/dm/round-robin-js.svg)](https://www.npmjs.com/package/round-robin-js) [![npm](https://img.shields.io/badge/node-%3E=%206.0-blue.svg)](https://www.npmjs.com/package/round-robin-js)
 
-An implementation of the round robin as a data structure. The following strategies are implemented:
-<table>
-  <tr>
-    <td><b>SequentialRoundRobin</b></td>
-    <td>selects the next item based on the order of insertion</td>
-  </tr>
-  <tr>
-    <td><b>RandomRoundRobin</b></td>
-    <td>selects the next item randomly</td>
-  </tr>
-  <tr>
-    <td><b>PriorityRoundRobin</b></td>
-    <td>selects the next item based on its priority</td>
-  </tr>
-</table>
-<br/>
+**round-robin-js** is a versatile library implementing the Round Robin data structure with support for various strategies:
 
-<img src="https://user-images.githubusercontent.com/6517308/121813242-859a9700-cc6b-11eb-99c0-49e5bb63005b.jpg">
+| **Strategy**              | **Description**                                        |
+|---------------------------|--------------------------------------------------------|
+| **SequentialRoundRobin**  | Selects the next item in the order of insertion.       |
+| **RandomRoundRobin**      | Selects the next item randomly.                        |
+| **PriorityRoundRobin**    | Selects the next item based on its priority.           |
 
-# Contents
-* [Install](#install)
-* [require](#import)
-* [import](#import)
-* [API](#api)
-  * [constructor](#constructor)
-  * [add](#add)
-  * [next](#next)
-  * [count](#count)
-  * [deleteByKey](#deletebykey)
-  * [deleteByValue](#deletebyvalue)
-  * [reset](#reset)
-  * [clear](#clear)
- * [Build](#build)
- * [License](#license)
+![round-robin-js](https://user-images.githubusercontent.com/6517308/121813242-859a9700-cc6b-11eb-99c0-49e5bb63005b.jpg)
 
-## Install
+---
 
-```sh
+## **Contents**
+- [Installation](#installation)
+- [Importing](#importing)
+- [Usage Examples](#usage-examples)
+- [API Documentation](#api-documentation)
+  - [Constructor](#constructor)
+  - [add](#add)
+  - [next](#next)
+  - [count](#count)
+  - [deleteByKey](#deletebykey)
+  - [deleteByValue](#deletebyvalue)
+  - [reset](#reset)
+  - [clear](#clear)
+- [Build](#build)
+- [License](#license)
+
+---
+
+## **Installation**
+
+To install the library, use npm:
+
+```bash
 npm install --save round-robin-js
 ```
 
-## require
-```js
+---
+
+## **Importing**
+
+### **CommonJS**
+
+```javascript
 const {
   SequentialRoundRobin,
   RandomRoundRobin,
-  PriorityRoundRobin
+  PriorityRoundRobin,
 } = require('round-robin-js');
 ```
 
-## import
-```js
+### **ES Modules**
+
+```javascript
 import {
   SequentialRoundRobin,
   RandomRoundRobin,
   PriorityRoundRobin,
-  RoundRobinItem // the internal item type
+  RoundRobinItem, // the internal item type
 } from 'round-robin-js';
 ```
 
-## API
+---
 
-### constructor
-All types accept an initial list of values. PriorityRoundRobin requires a compare function to select next item based on priority.
+## **Usage Examples**
 
-#### JS
-
-```js
-const cpusTable = new SequentialRoundRobin([1, 2, 3]);
-
-const rockPaperScissors = new RandomRoundRobin(['Rock', 'Paper', 'Scissors']);
-
-const availableServers = new PriorityRoundRobin(
-  (a, b) => a.load - b.load, // select next available server with lowest load
-  [{ hostname: 's1.test.com', load: 40 }, { hostname: 's2.test.com', load: 30 }]
-);
+### **SequentialRoundRobin**
+```javascript
+const tasks = new SequentialRoundRobin(['Task 1', 'Task 2', 'Task 3']);
+tasks.next(); // { key: 0, value: 'Task 1' }
+tasks.next(); // { key: 1, value: 'Task 2' }
+tasks.add('Task 4'); // Adds a new task
+tasks.reset(); // Resets the sequence
 ```
 
-#### TS
+### **RandomRoundRobin**
+```javascript
+const choices = new RandomRoundRobin(['Rock', 'Paper', 'Scissors']);
+choices.next(); // Randomly selects an item
+choices.add('Lizard'); // Adds a new choice
+```
 
-```js
-const cpusTable = new SequentialRoundRobin<number>([1, 2, 3]);
+### **PriorityRoundRobin**
+```javascript
+const servers = new PriorityRoundRobin(
+  (a, b) => a.load - b.load, // Compare function: lower load is prioritized
+  [{ hostname: 's1', load: 40 }, { hostname: 's2', load: 20 }]
+);
+servers.next(); // { key: 1, value: { hostname: 's2', load: 20 } }
+servers.add({ hostname: 's3', load: 10 }); // Adds a new server
+```
 
-const rockPaperScissors = new RandomRoundRobin<string>(['Rock', 'Paper', 'Scissors']);
+---
 
-interface IServer {
-  hostname: string;
-  load: number;
+## **API Documentation**
+
+### **Constructor**
+
+Initializes a round-robin instance. `PriorityRoundRobin` requires a comparison function for sorting.
+
+#### **JavaScript Example**
+```javascript
+const rr = new SequentialRoundRobin([1, 2, 3]);
+const priorityRR = new PriorityRoundRobin((a, b) => a.priority - b.priority, [{ value: 'A', priority: 1 }]);
+```
+
+#### **TypeScript Example**
+```typescript
+const rr = new SequentialRoundRobin<number>([1, 2, 3]);
+
+interface Item {
+  value: string;
+  priority: number;
 }
-const availableServers = new PriorityRoundRobin<IServer>(
-  (a: IServer, b: IServer) => a.load - b.load, // select next available server with lowest load
-  [{ hostname: 's1.test.com', load: 40 }, { hostname: 's2.test.com', load: 30 }]
+const priorityRR = new PriorityRoundRobin<Item>(
+  (a: Item, b: Item) => a.priority - b.priority,
+  [{ value: 'A', priority: 1 }]
 );
 ```
 
-### add
-adds a new item to the table.
+---
 
-```js
-cpusTable.add(4); // { key: 3, value: 4 }
-cpusTable.add(5); // { key: 4, value: 5 }
+### **add**
 
-availableServers.add({ hostname: 's3.test.com', load: 15 }); // { key: 2, value: { hostname: 's3.test.com', load: 15 } }
-availableServers.add({ hostname: 's4.test.com', load: 60 }); // { key: 3, value: { hostname: 's4.test.com', load: 60 } }
+Adds a new item to the round robin.
+
+```javascript
+rr.add('New Item'); // Returns { key: <key>, value: 'New Item' }
 ```
 
-### next
-selects and returns the next item in the round.
+---
 
-```js
-// first round
-cpusTable.next(); // { key: 0, value: 1 }
-cpusTable.next(); // { key: 1, value: 2 }
-cpusTable.next(); // { key: 2, value: 3 }
-cpusTable.next(); // { key: 3, value: 4 }
-cpusTable.next(); // { key: 4, value: 5 }
-// second round ...
-cpusTable.next(); // { key: 0, value: 1 }
+### **next**
 
-// first round
-rockPaperScissors.next(); // { key: 1, value: 'Paper' }
-rockPaperScissors.next(); // { key: 0, value: 'Rock' }
-rockPaperScissors.next(); // { key: 2, value: 'Scissors' }
-// second round ...
-rockPaperScissors.next(); // { key: 0, value: 'Rock' }
+Selects and returns the next item based on the strategy.
 
-availableServers.next(); // { key: 2, value: { hostname: 's3.test.com', load: 15 } }
-availableServers.next(); // { key: 1, value: { hostname: 's2.test.com', load: 30 } }
-availableServers.next(); // { key: 0, value: { hostname: 's1.test.com', load: 40 } }
-availableServers.next(); // { key: 3, value: { hostname: 's4.test.com', load: 60 } }
-// second round ...
-availableServers.next(); // { key: 2, value: { hostname: 's3.test.com', load: 15 } }
+```javascript
+rr.next(); // Returns the next item
 ```
 
-### count
-returns the number of items in the table.
+---
 
-```js
-cpusTable.count(); // 5
-rockPaperScissors.count(); // 3
-availableServers.count(); // 4
+### **count**
+
+Returns the total number of items.
+
+```javascript
+rr.count(); // Returns the count
 ```
 
-### deleteByKey
-deletes an item from the table by its key.
+---
 
-```js
-cpusTable.deleteByKey(1); // 2 is deleted
-cpusTable.count(); // 4
+### **deleteByKey**
 
-availableServers.deleteByKey(2); // true / { hostname: 's3.test.com', load: 15 } is deleted
-availableServers.count(); // 3
+Deletes an item by its unique key.
+
+```javascript
+rr.deleteByKey(1); // Returns true if successful, false otherwise
 ```
 
-### deleteByValue
-accepts a callback to delete items that match a criteria from the table and returns the count of deleted.
+---
 
-```js
-availableServers.deleteByValue((s) => s.load > 30); // 2
-availableServers.next(); // { key: 1, value: { hostname: 's2.test.com', load: 30 } }
-availableServers.next(); // { key: 1, value: { hostname: 's2.test.com', load: 30 } }
+### **deleteByValue**
+
+Deletes items that match a callback condition. Returns the count of deleted items.
+
+```javascript
+rr.deleteByValue((value) => value.includes('Item')); // Deletes matching items
 ```
 
-### reset
-resets the round selection from the start.
+---
 
-```js
-cpusTable.next(); // { key: 1, value: 2 }
-cpusTable.next(); // { key: 2, value: 3 }
-cpusTable.reset();
-cpusTable.next(); // { key: 0, value: 1 }
-cpusTable.next(); // { key: 1, value: 2 }
+### **reset**
 
-availableServers.next(); // { key: 1, value: { hostname: 's2.test.com', load: 30 } }
-availableServers.add({ hostname: 's99.test.com', load: 10 });
-availableServers.next(); // { key: 4, value: { hostname: 's99.test.com', load: 10 } }
-availableServers.reset();
-availableServers.next(); // { key: 4, value: { hostname: 's99.test.com', load: 10 } }
+Resets the selection to the start of the round.
+
+```javascript
+rr.reset();
 ```
 
-### clear
-clears all values in the table.
+---
 
-```js
-cpusTable.clear();
-cpusTable.count(); // 0
-cpusTable.next(); // null
+### **clear**
 
-rockPaperScissors.clear();
-rockPaperScissors.count(); // 0
-rockPaperScissors.next(); // null
+Clears all items in the round robin.
 
-availableServers.clear();
-availableServers.count(); // 0
-availableServers.next(); // null
+```javascript
+rr.clear();
 ```
 
-## Build
-```
-grunt build
+---
+
+## **Build**
+
+To build the library:
+
+```bash
+npm run build
 ```
 
-## License
-The MIT License. Full License is [here](https://github.com/eyas-ranjous/round-robin-js/blob/main/LICENSE)
+---
+
+## **License**
+
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/eyas-ranjous/round-robin-js/blob/main/LICENSE) for more details.
+
+---

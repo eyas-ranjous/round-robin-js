@@ -5,67 +5,77 @@
  */
 
 const { PriorityQueue } = require('@datastructures-js/priority-queue');
-
-const RoundRobin = require('./RoundRobin');
+const { RoundRobin, RoundRobinError } = require('./RoundRobin');
 
 /**
- * @class
- */
+  * @template T
+  * @extends {RoundRobin<T>}
+  */
 class PriorityRoundRobin extends RoundRobin {
   /**
-   * @constructor
-   * @param {array} values
-   */
-  constructor(compare, values) {
+    * @constructor
+    * @param {(a: T, b: T) => number} compare
+    * @param {T[]} [values=[]]
+    */
+  constructor(compare, values = []) {
     if (typeof compare !== 'function') {
-      throw new Error('PriorityRoundRobin constructor expects a compare function');
+      throw new RoundRobinError('PriorityRoundRobin constructor expects a compare function');
     }
     super(values);
+
+    /** @private */
     this._compare = (a, b) => compare(a.value, b.value);
     this._init();
   }
 
   /**
-   * initialize round robin props
-   * @private
-   */
+    * @private
+    */
   _init() {
+    /**
+      * @private
+      * @type {PriorityQueue<RoundRobinItem<T>>}
+      */
     this._items = this._createQueue();
+
+    /**
+      * @private
+      * @type {PriorityQueue<RoundRobinItem<T>>}
+      */
     this._round = this._createQueue();
+
     this._initialValues.forEach((value) => this.add(value));
   }
 
   /**
-   * Creates a priority queue
-   * @private
-   */
+    * @private
+    * @returns {PriorityQueue<RoundRobinItem<T>>}
+    */
   _createQueue() {
     return new PriorityQueue(this._compare);
   }
 
   /**
-   * Adds a value to the table
-   * @public
-   * @param {number|string|object} value
-   * @return {object}
-   */
+    * @public
+    * @param {T} value
+    * @returns {RoundRobinItem<T>}
+    */
   add(value) {
-    const key = this._currentkey;
-    const item = { key, value };
+    const item = { key: this._currentKey, value };
     this._items.push(item);
-    this._currentkey++;
+    this._currentKey++;
     return item;
   }
 
   /**
-   * Deletes an item by its key from the table
-   * @public
-   * @param {number} key
-   * @return {boolean}
-   */
+    * @public
+    * @param {number} key
+    * @returns {boolean}
+    */
   deleteByKey(key) {
     let deleted = false;
     let updatedItems = this._createQueue();
+
     while (!this._items.isEmpty()) {
       const item = this._items.pop();
       if (item.key !== key) {
@@ -75,8 +85,9 @@ class PriorityRoundRobin extends RoundRobin {
       }
     }
     this._items = updatedItems;
+
     if (deleted) {
-      return deleted;
+      return true;
     }
 
     updatedItems = this._createQueue();
@@ -93,30 +104,31 @@ class PriorityRoundRobin extends RoundRobin {
   }
 
   /**
-   * Deletes items that their values match a criteria
-   * @public
-   * @param {function} cb
-   * @return {number}
-   */
+    * @public
+    * @param {function(T): boolean} cb
+    * @returns {number}
+    */
   deleteByValue(cb) {
     let deleted = 0;
     let updatedItems = this._createQueue();
+
     while (!this._items.isEmpty()) {
       const item = this._items.pop();
       if (!cb(item.value)) {
         updatedItems.push(item);
       } else {
-        deleted += 1;
+        deleted++;
       }
     }
     this._items = updatedItems;
+
     updatedItems = this._createQueue();
     while (!this._round.isEmpty()) {
       const item = this._round.pop();
       if (!cb(item.value)) {
         updatedItems.push(item);
       } else {
-        deleted += 1;
+        deleted++;
       }
     }
     this._round = updatedItems;
@@ -124,10 +136,9 @@ class PriorityRoundRobin extends RoundRobin {
   }
 
   /**
-   * Selects the next item in the round from the queue
-   * @public
-   * @return {object}
-   */
+    * @public
+    * @returns {RoundRobinItem<T> | null}
+    */
   next() {
     if (this._items.isEmpty() && this._round.isEmpty()) {
       return null;
@@ -144,23 +155,35 @@ class PriorityRoundRobin extends RoundRobin {
   }
 
   /**
-   * Returns number of items
-   * @return {number}
-   */
+    * @public
+    * @returns {number}
+    */
   count() {
     return this._items.size() + this._round.size();
   }
 
   /**
-   * Clears the table
-   * @public
-   * @return {RoundRobin}
-   */
+     * @public
+     * @returns {this}
+     */
+  reset() {
+    this._items = this._createQueue();
+    this._round = this._createQueue();
+    this._initialValues.forEach((value) => this.add(value));
+    super.reset();
+    return this;
+  }
+
+  /**
+    * @public
+    * @returns {this}
+    */
   clear() {
     this._items = this._createQueue();
     this._round = this._createQueue();
-    return super.clear();
+    super.clear();
+    return this;
   }
 }
 
-exports.PriorityRoundRobin = PriorityRoundRobin;
+module.exports = { PriorityRoundRobin };

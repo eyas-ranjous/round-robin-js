@@ -10,7 +10,9 @@
     ],
     "class-methods-use-this": 0,
     "prefer-object-spread": 0,
-    "no-plusplus": 0
+    "no-plusplus": 0,
+    "max-classes-per-file": 0,
+    "no-unused-vars": 0
   },
   "env": {
     "mocha": true,

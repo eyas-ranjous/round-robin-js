@@ -1,5 +1,17 @@
-import { RoundRobin } from './RoundRobin';
+/**
+ * round-robin-js
+ * @copyright 2021 Eyas Ranjous <eyas.ranjous@gmail.com>
+ * @license MIT
+ */
 
-export { RoundRobinItem } from './RoundRobin';
+ import { RoundRobin, RoundRobinItem } from './RoundRobin';
 
-export class RandomRoundRobin<T> extends RoundRobin<T> {}
+ export { RoundRobinItem } from './RoundRobin';
+ 
+ export class RandomRoundRobin<T> extends RoundRobin<T> {
+   protected _items: Map<number, RoundRobinItem<T>>;
+   protected _round: Set<number>;
+ 
+   constructor(values?: T[]);
+ }
+ 

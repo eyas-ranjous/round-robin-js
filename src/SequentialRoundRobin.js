@@ -5,50 +5,60 @@
  */
 
 const { DoublyLinkedList } = require('@datastructures-js/linked-list');
-const RoundRobin = require('./RoundRobin');
+const { RoundRobin } = require('./RoundRobin');
 
 /**
- * @class
- */
+  * @template T
+  * @extends {RoundRobin<T>}
+  */
 class SequentialRoundRobin extends RoundRobin {
   /**
-   * @constructor
-   * @param {array} values
-   */
-  constructor(values) {
+    * @constructor
+    * @param {T[]} [values=[]]
+    */
+  constructor(values = []) {
     super(values);
     this._init();
   }
 
   /**
-   * @private
-   */
+    * @private
+    */
   _init() {
+    /**
+      * @private
+      * @type {DoublyLinkedList}
+      */
     this._items = new DoublyLinkedList();
+
+    /**
+      * @private
+      * @type {Map<number, import('@datastructures-js/linked-list').DoublyLinkedListNode>}
+      */
     this._itemNodes = new Map();
+
     this._initialValues.forEach((value) => this.add(value));
   }
 
   /**
-   * Adds a new item to the table
-   * @public
-   * @param {number|string|object} value
-   * @return {object}
-   */
+    * @public
+    * @param {T} value
+    * @returns {RoundRobinItem<T>}
+    */
   add(value) {
-    this._itemNodes.set(
-      this._currentkey,
-      this._items.insertLast({ key: this._currentkey++, value })
-    );
-    return this._items.tail().getValue();
+    const node = this._items.insertLast({
+      key: this._currentKey,
+      value
+    });
+    this._itemNodes.set(this._currentKey++, node);
+    return node.getValue();
   }
 
   /**
-   * Deletes an item by its key from the table
-   * @public
-   * @param {number} key
-   * @return {boolean}
-   */
+    * @public
+    * @param {number} key
+    * @returns {boolean}
+    */
   deleteByKey(key) {
     if (!this._itemNodes.has(key)) {
       return false;
@@ -63,11 +73,10 @@ class SequentialRoundRobin extends RoundRobin {
   }
 
   /**
-   * Deletes items that their values match a criteria
-   * @public
-   * @param {function} cb
-   * @return {number}
-   */
+    * @public
+    * @param {function(T): boolean} cb
+    * @returns {number}
+    */
   deleteByValue(cb) {
     const deletedKeys = [];
     this._items.forEach((itemNode) => {
@@ -76,15 +85,13 @@ class SequentialRoundRobin extends RoundRobin {
         deletedKeys.push(key);
       }
     });
-    deletedKeys.map((key) => this.deleteByKey(key));
-    return deletedKeys.length;
+    return deletedKeys.map((key) => this.deleteByKey(key)).length;
   }
 
   /**
-   * Selects the next item in the turn round sequentially
-   * @public
-   * @return {object}
-   */
+    * @public
+    * @returns {RoundRobinItem<T> | null}
+    */
   next() {
     if (this._items.isEmpty()) {
       return null;
@@ -100,23 +107,24 @@ class SequentialRoundRobin extends RoundRobin {
   }
 
   /**
-   * Returns number of items
-   * @return {number}
-   */
+    * @public
+    * @returns {number}
+    */
   count() {
     return this._items.count();
   }
 
   /**
-   * Clears the table
-   * @public
-   * @return {RoundRobin}
-   */
+    * @public
+    * @returns {this}
+    */
   clear() {
     this._items = new DoublyLinkedList();
     this._itemNodes = new Map();
-    return super.clear();
+    this._currentKey = 0;
+    super.clear();
+    return this;
   }
 }
 
-exports.SequentialRoundRobin = SequentialRoundRobin;
+module.exports = { SequentialRoundRobin };

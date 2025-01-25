@@ -4,49 +4,57 @@
  * @license MIT
  */
 
-const RoundRobin = require('./RoundRobin');
+const { RoundRobin } = require('./RoundRobin');
 
 /**
- * @class
- */
+  * @template T
+  * @extends {RoundRobin<T>}
+  */
 class RandomRoundRobin extends RoundRobin {
   /**
-   * @constructor
-   * @param {array} values
-   */
-  constructor(values) {
+    * @constructor
+    * @param {T[]} [values=[]]
+    */
+  constructor(values = []) {
     super(values);
     this._init();
   }
 
   /**
-   * @private
-   */
+    * @private
+    */
   _init() {
+    /**
+      * @private
+      * @type {Map<number, RoundRobinItem<T>>}
+      */
     this._items = new Map();
+
+    /**
+      * @private
+      * @type {Set<number>}
+      */
     this._round = new Set();
+
     this._initialValues.forEach((value) => this.add(value));
   }
 
   /**
-   * Adds a value to the table
-   * @public
-   * @param {number|string|object} value
-   * @return {object}
-   */
+    * @public
+    * @param {T} value
+    * @returns {RoundRobinItem<T>}
+    */
   add(value) {
-    const key = this._currentkey;
-    this._items.set(key, { key, value });
-    this._currentkey++;
-    return this._items.get(key);
+    const item = { key: this._currentKey, value };
+    this._items.set(this._currentKey++, item);
+    return item;
   }
 
   /**
-   * Deletes an item by its key from the table
-   * @public
-   * @param {number} key
-   * @return {boolean}
-   */
+    * @public
+    * @param {number} key
+    * @returns {boolean}
+    */
   deleteByKey(key) {
     if (!this._items.has(key)) {
       return false;
@@ -61,27 +69,25 @@ class RandomRoundRobin extends RoundRobin {
   }
 
   /**
-   * Deletes items that their values match a criteria
-   * @public
-   * @param {function} cb
-   * @return {number}
-   */
+    * @public
+    * @param {function(T): boolean} cb
+    * @returns {number}
+    */
   deleteByValue(cb) {
     let deleted = 0;
     this._items.forEach(({ key, value }) => {
       if (cb(value)) {
         this.deleteByKey(key);
-        deleted += 1;
+        deleted++;
       }
     });
     return deleted;
   }
 
   /**
-   * Selects the next item's key from the round
-   * @public
-   * @return {object}
-   */
+    * @private
+    * @returns {RoundRobinItem<T> | null}
+    */
   _nextTurn() {
     if (this._currentTurn === null) {
       const keys = Array.from(this._items.keys());
@@ -95,14 +101,13 @@ class RandomRoundRobin extends RoundRobin {
     const roundKeys = Array.from(this._round);
     const selectedKey = roundKeys[Math.floor(Math.random() * roundKeys.length)];
     this._round.delete(selectedKey);
-    return this._items.get(selectedKey);
+    return this._items.get(selectedKey) || null;
   }
 
   /**
-   * Selects the next item in the turn round randomly
-   * @public
-   * @return {object}
-   */
+    * @public
+    * @returns {RoundRobinItem<T> | null}
+    */
   next() {
     if (this._items.size === 0) {
       return null;
@@ -118,23 +123,23 @@ class RandomRoundRobin extends RoundRobin {
   }
 
   /**
-   * Returns number of items
-   * @return {number}
-   */
+    * @public
+    * @returns {number}
+    */
   count() {
     return this._items.size;
   }
 
   /**
-   * Clears the table
-   * @public
-   * @return {RoundRobin}
-   */
+    * @public
+    * @returns {this}
+    */
   clear() {
-    this._items = new Map();
-    this._round = new Set();
-    return super.clear();
+    this._items.clear();
+    this._round.clear();
+    super.clear();
+    return this;
   }
 }
 
-exports.RandomRoundRobin = RandomRoundRobin;
+module.exports = { RandomRoundRobin };
