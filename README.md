@@ -14,8 +14,6 @@ This library provides three implementations of the Round Robin scheduling algori
 
 The library is designed with a clean API and supports common operations like adding items, removing items by key or value, iterating to the next item, and resetting or clearing the scheduler.
 
----
-
 ## Installation
 
 Install the library using npm:
@@ -24,7 +22,6 @@ Install the library using npm:
 npm install round-robin-js
 ```
 
----
 
 ## Usage
 
@@ -56,8 +53,6 @@ console.log(priorityRR.count()); // 2
 priorityRR.reset();
 ```
 
----
-
 ### 2. Random Round Robin
 
 The `RandomRoundRobin` class selects items randomly.
@@ -85,8 +80,6 @@ console.log(randomRR.count()); // 2
 // Clear all items
 randomRR.clear();
 ```
-
----
 
 ### 3. Sequential Round Robin
 
@@ -116,8 +109,6 @@ console.log(sequentialRR.count()); // 2
 // Clear all items
 sequentialRR.clear();
 ```
-
----
 
 ## API Reference
 
@@ -164,8 +155,6 @@ All implementations inherit the following methods from the base class:
 
 - **`constructor(values?: T[])`**
   - Initializes a new `SequentialRoundRobin` instance.
-
----
 
 ## License
 
