@@ -1,213 +1,119 @@
+# round-robin-js
 
-# **round-robin-js**
+A JavaScript library that implements round-robin algorithms for managing items in a cyclic order. This library provides three types of round-robin implementations:
 
-[![npm](https://img.shields.io/npm/v/round-robin-js.svg)](https://www.npmjs.com/package/round-robin-js) [![npm](https://img.shields.io/npm/dm/round-robin-js.svg)](https://www.npmjs.com/package/round-robin-js) [![npm](https://img.shields.io/badge/node-%3E=%206.0-blue.svg)](https://www.npmjs.com/package/round-robin-js)
+- **PriorityRoundRobin**: Processes items based on priority.
+- **RandomRoundRobin**: Processes items in a random order.
+- **SequentialRoundRobin**: Processes items in a sequential order.
 
-**round-robin-js** is a versatile library implementing the Round Robin data structure with support for various strategies:
-
-| **Strategy**              | **Description**                                        |
-|---------------------------|--------------------------------------------------------|
-| **SequentialRoundRobin**  | Selects the next item in the order of insertion.       |
-| **RandomRoundRobin**      | Selects the next item randomly.                        |
-| **PriorityRoundRobin**    | Selects the next item based on its priority.           |
-
-![round-robin-js](https://user-images.githubusercontent.com/6517308/121813242-859a9700-cc6b-11eb-99c0-49e5bb63005b.jpg)
-
----
-
-## **Contents**
-- [Installation](#installation)
-- [Importing](#importing)
-- [Usage Examples](#usage-examples)
-- [API Documentation](#api-documentation)
-  - [Constructor](#constructor)
-  - [add](#add)
-  - [next](#next)
-  - [count](#count)
-  - [deleteByKey](#deletebykey)
-  - [deleteByValue](#deletebyvalue)
-  - [reset](#reset)
-  - [clear](#clear)
-- [Build](#build)
-- [License](#license)
-
----
-
-## **Installation**
-
-To install the library, use npm:
+## Installation
 
 ```bash
-npm install --save round-robin-js
+npm install round-robin-js
+```
+
+## Usage
+
+### Importing the Library
+
+```javascript
+const { PriorityRoundRobin, RandomRoundRobin, SequentialRoundRobin } = require('round-robin-js');
+```
+
+## API Overview
+
+### Common Methods (All Round-Robin Types)
+
+All round-robin types share the following interface:
+
+- **add(value)**: Adds a new item to the round-robin queue.
+  - `value`: The value to add.
+  - Returns: The added item.
+
+- **deleteByKey(key)**: Deletes an item by its key.
+  - `key`: The key of the item to delete.
+  - Returns: `true` if the item was deleted, `false` otherwise.
+
+- **deleteByValue(callback)**: Deletes items that satisfy the given callback function.
+  - `callback`: A function that takes an item value and returns `true` if the item should be deleted.
+  - Returns: The number of items deleted.
+
+- **next()**: Retrieves the next item in the round-robin sequence.
+  - Returns: The next item or `null` if the queue is empty.
+
+- **count()**: Returns the total number of items in the round-robin queue.
+
+- **clear()**: Clears all items from the round-robin queue.
+  - Returns: The round-robin instance for chaining.
+
+- **reset()**: Resets the round-robin to its initial state.
+  - Returns: The round-robin instance for chaining.
+
+---
+
+## PriorityRoundRobin
+
+### Description
+Processes items based on priority, where the highest-priority item is processed first.
+
+### Constructor
+```javascript
+new PriorityRoundRobin(compare, values = [])
+```
+- `compare`: A comparison function `(a, b) => number` to determine the priority of items.
+- `values`: An optional array of initial values.
+
+### Example
+```javascript
+const priorityRR = new PriorityRoundRobin((a, b) => b - a, [5, 2, 8]);
+priorityRR.add(10);
+console.log(priorityRR.next()); // { key: 3, value: 10 }
 ```
 
 ---
 
-## **Importing**
+## RandomRoundRobin
 
-### **CommonJS**
+### Description
+Processes items in a random order. Each item is processed once per round before restarting.
 
+### Constructor
 ```javascript
-const {
-  SequentialRoundRobin,
-  RandomRoundRobin,
-  PriorityRoundRobin,
-} = require('round-robin-js');
+new RandomRoundRobin(values = [])
 ```
+- `values`: An optional array of initial values.
 
-### **ES Modules**
-
+### Example
 ```javascript
-import {
-  SequentialRoundRobin,
-  RandomRoundRobin,
-  PriorityRoundRobin,
-  RoundRobinItem, // the internal item type
-} from 'round-robin-js';
+const randomRR = new RandomRoundRobin([1, 2, 3, 4]);
+console.log(randomRR.next()); // Random item
+console.log(randomRR.next()); // Another random item
 ```
 
 ---
 
-## **Usage Examples**
+## SequentialRoundRobin
 
-### **SequentialRoundRobin**
+### Description
+Processes items in the order they were added, cycling through sequentially.
+
+### Constructor
 ```javascript
-const tasks = new SequentialRoundRobin(['Task 1', 'Task 2', 'Task 3']);
-tasks.next(); // { key: 0, value: 'Task 1' }
-tasks.next(); // { key: 1, value: 'Task 2' }
-tasks.add('Task 4'); // Adds a new task
-tasks.reset(); // Resets the sequence
+new SequentialRoundRobin(values = [])
 ```
+- `values`: An optional array of initial values.
 
-### **RandomRoundRobin**
+### Example
 ```javascript
-const choices = new RandomRoundRobin(['Rock', 'Paper', 'Scissors']);
-choices.next(); // Randomly selects an item
-choices.add('Lizard'); // Adds a new choice
-```
-
-### **PriorityRoundRobin**
-```javascript
-const servers = new PriorityRoundRobin(
-  (a, b) => a.load - b.load, // Compare function: lower load is prioritized
-  [{ hostname: 's1', load: 40 }, { hostname: 's2', load: 20 }]
-);
-servers.next(); // { key: 1, value: { hostname: 's2', load: 20 } }
-servers.add({ hostname: 's3', load: 10 }); // Adds a new server
+const sequentialRR = new SequentialRoundRobin(['A', 'B', 'C']);
+console.log(sequentialRR.next()); // { key: 0, value: 'A' }
+console.log(sequentialRR.next()); // { key: 1, value: 'B' }
+console.log(sequentialRR.next()); // { key: 2, value: 'C' }
+console.log(sequentialRR.next()); // { key: 0, value: 'A' } // Cycles back
 ```
 
 ---
 
-## **API Documentation**
+## License
 
-### **Constructor**
-
-Initializes a round-robin instance. `PriorityRoundRobin` requires a comparison function for sorting.
-
-#### **JavaScript Example**
-```javascript
-const rr = new SequentialRoundRobin([1, 2, 3]);
-const priorityRR = new PriorityRoundRobin((a, b) => a.priority - b.priority, [{ value: 'A', priority: 1 }]);
-```
-
-#### **TypeScript Example**
-```typescript
-const rr = new SequentialRoundRobin<number>([1, 2, 3]);
-
-interface Item {
-  value: string;
-  priority: number;
-}
-const priorityRR = new PriorityRoundRobin<Item>(
-  (a: Item, b: Item) => a.priority - b.priority,
-  [{ value: 'A', priority: 1 }]
-);
-```
-
----
-
-### **add**
-
-Adds a new item to the round robin.
-
-```javascript
-rr.add('New Item'); // Returns { key: <key>, value: 'New Item' }
-```
-
----
-
-### **next**
-
-Selects and returns the next item based on the strategy.
-
-```javascript
-rr.next(); // Returns the next item
-```
-
----
-
-### **count**
-
-Returns the total number of items.
-
-```javascript
-rr.count(); // Returns the count
-```
-
----
-
-### **deleteByKey**
-
-Deletes an item by its unique key.
-
-```javascript
-rr.deleteByKey(1); // Returns true if successful, false otherwise
-```
-
----
-
-### **deleteByValue**
-
-Deletes items that match a callback condition. Returns the count of deleted items.
-
-```javascript
-rr.deleteByValue((value) => value.includes('Item')); // Deletes matching items
-```
-
----
-
-### **reset**
-
-Resets the selection to the start of the round.
-
-```javascript
-rr.reset();
-```
-
----
-
-### **clear**
-
-Clears all items in the round robin.
-
-```javascript
-rr.clear();
-```
-
----
-
-## **Build**
-
-To build the library:
-
-```bash
-npm run build
-```
-
----
-
-## **License**
-
-This project is licensed under the MIT License. See the [LICENSE](https://github.com/eyas-ranjous/round-robin-js/blob/main/LICENSE) for more details.
-
----
+This library is licensed under the MIT License. Copyright 2021 Eyas Ranjous.
