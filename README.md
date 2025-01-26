@@ -8,7 +8,7 @@ A JavaScript library that implements round-robin algorithms for managing items i
 - **RandomRoundRobin**: Processes items in a random order.
 - **PriorityRoundRobin**: Processes items based on priority.
 
-This library comes with built-in TypeScript type definitions.
+It also has typescript definitions for all classes.
 
 ## Installation
 
@@ -16,7 +16,9 @@ This library comes with built-in TypeScript type definitions.
 npm install round-robin-js
 ```
 
-## Usage (JS & TS)
+## API
+
+### Import
 
 ```javascript
 // JS
@@ -35,13 +37,11 @@ import {
 } from 'round-robin-js';
 ```
 
-## API Overview
-
-### Common Methods (All Round-Robin Types)
+### Common Methods
 
 All round-robin types share the following interface:
 
-- **add(value)**: Adds a new item to the round-robin queue.
+- **add(value)**: Adds a new item.
   - `value`: The value to add.
   - Returns: The added item (`RoundRobinItem<T>`).
 
@@ -56,24 +56,24 @@ All round-robin types share the following interface:
 - **next()**: Retrieves the next item in the round-robin sequence.
   - Returns: The next item (`RoundRobinItem<T>`) or `null` if the queue is empty.
 
-- **count()**: Returns the total number of items in the round-robin queue.
+- **count()**: Returns the total number of items in the round-robin.
 
-- **clear()**: Clears all items from the round-robin queue.
+- **clear()**: Clears all items from the round-robin.
   - Returns: The round-robin instance for chaining.
 
 - **reset()**: Resets the round-robin to its initial state.
   - Returns: The round-robin instance for chaining.
 
-## SequentialRoundRobin
+### SequentialRoundRobin
 Processes items in the order they were added, cycling through sequentially.
 
-### Constructor
+#### Constructor
 ```ts
 new SequentialRoundRobin<T>(values?: T[])
 ```
 - `values`: An optional array of initial values.
 
-### Example
+#### Example
 ```js
 const sequentialRR = new SequentialRoundRobin(['A', 'B', 'C']);
 console.log(sequentialRR.next()); // { key: 0, value: 'A' }
@@ -82,26 +82,26 @@ console.log(sequentialRR.next()); // { key: 2, value: 'C' }
 console.log(sequentialRR.next()); // { key: 0, value: 'A' } // cycles back
 ```
 
-## RandomRoundRobin
+### RandomRoundRobin
 Processes items in a random order. Each item is processed once per round before restarting.
 
-### Constructor
+#### Constructor
 ```ts
 new RandomRoundRobin<T>(values?: T[])
 ```
 - `values`: An optional array of initial values.
 
-### Example
+#### Example
 ```js
 const randomRR = new RandomRoundRobin([1, 2, 3, 4]);
 console.log(randomRR.next()); // A random item
 console.log(randomRR.next()); // Another random item
 ```
 
-## PriorityRoundRobin
+### PriorityRoundRobin
 Processes items based on priority, where the highest-priority item is processed first (depending on your compare function).
 
-### Constructor
+#### Constructor
 ```ts
 new PriorityRoundRobin<T>(
   compare: (a: T, b: T) => number,
@@ -111,14 +111,14 @@ new PriorityRoundRobin<T>(
 - `compare`: A comparison function `(a, b) => number` to determine priority of items.
 - `values`: An optional array of initial values.
 
-### Example
+#### Example
 ```js
 const priorityRR = new PriorityRoundRobin((a, b) => b - a, [5, 2, 8]);
 priorityRR.add(10);
 console.log(priorityRR.next()); // { key: 3, value: 10 }
 ```
 
-## RoundRobinItem
+### RoundRobinItem
 
 Each item in the round-robin is represented as an object with the following shape:
 
@@ -132,4 +132,4 @@ interface RoundRobinItem<T> {
 
 ## License
 
-This library is licensed under the MIT License. Copyright 2021 Eyas Ranjous.
+This library is licensed under the MIT License. See [LICENSE](https://github.com/eyas-ranjous/round-robin/blob/master/LICENSE) for details.
