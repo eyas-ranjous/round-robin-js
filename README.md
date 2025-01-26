@@ -8,7 +8,7 @@ A JavaScript library that implements round-robin algorithms for managing items i
 - **RandomRoundRobin**: Processes items in a random order.
 - **PriorityRoundRobin**: Processes items based on priority.
 
-It also has typescript definitions for all classes.
+It also has TypeScript definitions for all classes.
 
 ## Installation
 
