@@ -132,4 +132,4 @@ interface RoundRobinItem<T> {
 
 ## License
 
-This library is licensed under the MIT License. See [LICENSE](https://github.com/eyas-ranjous/round-robin/blob/master/LICENSE) for details.
+This library is licensed under the MIT License. See [LICENSE](https://github.com/eyas-ranjous/round-robin/blob/main/LICENSE) for details.
